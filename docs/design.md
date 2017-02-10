@@ -33,15 +33,17 @@ Will most likely be implemented as a node.js server running express and providin
 
 The data exchanges for the application server are:
 
-***AS0*** At startup load the voter id and talks data. As clients register update the voter id with the client email (optional feature).
+***AS0*** At startup load the voter id and talks data from the file system. As clients register update the voter id with the client email (optional feature).
 
 ***AS1*** At startup and periodically until a connection is made, or if the connection is closed:
+
 1. make connections to each SDPZ engine
 2. don't send public key as predistributed to SPDZ engines
 3. send authenticated encrypted valid voter ids and talk ids to be stored in memory (shares or full values?)
 4. make the GUI served endpoint available for clients
 
 ***AS2*** When updated results are sent from each SPDZ engine:
+
 1. receive the top three talk ids with votes as encrypted revelated values
 2. make these available on `/results` for the GUI 
 
@@ -68,7 +70,7 @@ Note that the application server and clients access the SPDZ engines via [SPDZ p
 
 Each SPDZ Engine runs the workshop voting program:
 
-```pseudo code
+```
 Initialse voter-history as a Matrix with columns voter id, talk id1, talk id2, talk id3
 SP1 Load voter-history to date if this is a restart, reading local share of voter history from disk into voter-histroy, if exist. 
 
@@ -98,7 +100,6 @@ While true
     SP1 write the voter shares to disk to persist votes through a restart
     close the voter-history disk file
   Close client connection, ensure all resources released
-  
 ```
 
 ### Questions / Issues:
