@@ -72,7 +72,8 @@ Each SPDZ Engine runs the workshop voting program:
 
 ```
 Initialse voter-history as a Matrix with columns voter id, talk id1, talk id2, talk id3
-SP1 Load voter-history to date if this is a restart, reading local share of voter history from disk into voter-histroy, if exist. 
+SP1 Load voter-history to date if this is a restart, reading local share
+   of voter history from disk into voter-histroy, if exist. 
 
 Listens for socket connections with LISTEN
 
