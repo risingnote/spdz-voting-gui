@@ -4,7 +4,7 @@
 
 Any user is able to load a web application which allows them to view a list of workshop talks along with the top 3 ordered by the number of votes cast. The count of votes will be displayed.
 
-Attendees at the TPMPC workshop will be able to use a unique voter id (either acquired offline or possibly via an auto enrolling interace using an email address) to cast votes for their top 3 talks. Casting votes more than once will be allowed, with the previous votes replaced.
+Attendees at the TPMPC workshop will be able to use a unique voter id (either acquired offline or possibly via an auto enrolling interface using an email address) to cast votes for their top 3 talks. Casting votes more than once will be allowed, with the previous votes replaced.
 
 The privacy design is such that as long as their is at least 1 honest SPDZ engine the only information revealed about votes is the aggregated total of the top 3 talks. Individual votes can not be recovered. 
 
@@ -44,7 +44,7 @@ The data exchanges for the application server are:
 
 ***AS2*** When updated results are sent from each SPDZ engine:
 
-1. receive the top three talk ids with votes as encrypted revelated values
+1. receive the top three talk ids with votes as encrypted revealed values
 2. make these available on `/results` for the GUI 
 
 ***AS3*** When a voter registers for a voter id with an email or re-requests the voter id, record the email against the voter id and use SMTP to send the value out, (optional feature). 
@@ -57,12 +57,12 @@ The data exchanges for the application server are:
 
 ***CL3*** The client registers with an email address by requesting a voter id from the application server, sent by email. Resend available. This is an optional feature.
 
-***CL4*** When the client selects the top three talks, and presses vote:
+***CL4*** A client may vote for their top 3 talks after entering a voter id and presseing the  vote button to:
 
-1. make connections to each SPDZ engine and sends the client public key,
+1. make connections to each SPDZ engine and send the client public key,
 2. receive 4 encrypted shares from each SPDZ engine, combine with the voter id and 3 talk ids and send to all engines 
-3. wait for an encrypted success or failure response and display result back to user
-4. close connections
+3. wait for an encrypted success or failure response and display this result back to the user
+4. close connections to each SPDZ engine
 
 ### SPDZ Engine
 
@@ -72,10 +72,9 @@ Each SPDZ Engine runs the workshop voting program:
 
 ```
 Initialse voter-history as a Matrix with columns voter id, talk id1, talk id2, talk id3
-SP1 Load voter-history to date if this is a restart, reading local share
-   of voter history from disk into voter-histroy, if exist. 
+SP1 Load the share of voter-history to date from disk if this is a restart. 
 
-Listens for socket connections with LISTEN
+Listen for socket connections with LISTEN
 
 Accept first connection with ACCEPTCLIENTCONNECTION
   Remember socket id as application server socket
@@ -85,15 +84,15 @@ Accept first connection with ACCEPTCLIENTCONNECTION
   calculate top 3 talks from voter-history and send encrypted shares to application server socket
 
 While true
-  Accept client connection with ACCEPTCLIENTCONNECTION
+  Accept a client connection with ACCEPTCLIENTCONNECTION
   Recieve client public key with REGINT.READ_CLIENT_PUBLIC_KEY
   Send 4 encrypted shares to the client and read the resulting input.
   Validate the voter id and talk ids against the valid list (how - need to reveal or run
      against shares?).
-  If any invalid
+  If any are invalid
     send an encrypted error response to the client
   else
-    insert or update new votes from client into voter-history
+    insert or update the new votes from the client into the voter-history
     calculate top 3 talks from voter-history and send encrypted shares to application 
       server socket
     send an encrypted success response to the client
@@ -106,9 +105,11 @@ While true
 ### Questions / Issues:
 
 1. What is the best way to validate a share of the user input (voter id and talk id) without revealing the inputs? What should the program be validating against ?
-2. Because the SPDZ program processing runs in a single thread, clients will potentially be blocked between making the SPDZ connections (which do run in separate thread) and reading the shares to be able to send input. Reading for shares will need a 'sensible' timeout, before the voting attempt is flagged as failed. It should be possible for the vote to be re-tried. 
+2. Because the SPDZ program processing runs in a single thread, clients will potentially be blocked between making the SPDZ connections (which do run in separate thread) and reading the shares from SPDZ. This potential delay will need a 'sensible' timeout, before the voting attempt is flagged as failed. It will be possible for the vote to be re-tried.
 3. As this needs to be a long running process (at least for the 1 week duration of the workshop) their needs to be some persistence mechanism for votes cast. The idea proposed above is to record a transaction log where each vote cast can be added to the end of a file. As these are shares, privacy is maintained. On a restart these transactions can be replayed to build up the voter-history data structure. Is there a better way of achieving this?
 
 ### Other Notes
+
+It is worth starting to think about classes of SPDZ applications as these are likely to present similar requirements and features. 
 
 This demonstrator is an example of an application where SPDZ is calculating a result over independantly supplied client input. There is no coordination needed between clients.
