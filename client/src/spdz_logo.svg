@@ -1,0 +1,17 @@
+<!-- Set fill and stroke css depending on background. -->
+<svg version="1.1"
+     viewBox="0 0 450 120"
+     stroke="white" fill="rgb(0, 0, 0)" stroke-width='4px'
+     xmlns="http://www.w3.org/2000/svg">
+
+    <circle cx="60" cy="62" r="50" />   
+    <circle cx="60" cy="62" r="30" />
+    <circle cx="60" cy="25" r="20" />
+    <circle cx="25" cy="85" r="20" /> 
+    <circle cx="95" cy="85" r="20" />
+
+    <text x="130" y="105" font-family="Tahoma, Geneva, sans-serif" font-size="120"
+      text-anchor="start" alignment-baseline="auto">
+      SPDZ
+    </text>
+</svg>

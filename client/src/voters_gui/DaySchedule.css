@@ -1,0 +1,28 @@
+.DaySchedule .DaySchedule-content {
+  margin-bottom: 0;
+}
+
+.DaySchedule .DaySchedule-content .panel-body {
+  padding: 5px 15px;
+}
+
+.DaySchedule-row {
+  padding: 5px 0px;
+  border-bottom: 1px solid lightblue;
+}
+
+.DaySchedule-row:last-child {
+  padding: 5px 0px;
+  border-bottom: 0px;
+}
+
+/* Row class is needed to get higher specificity than bootstrap */
+.DaySchedule-row .DaySchedule-col {
+  padding: 0px 5px;
+}
+
+.DaySchedule-row .DaySchedule-author {
+  padding: 0px 5px;  
+  color: #e85a32;
+  font-weight: 600;
+}

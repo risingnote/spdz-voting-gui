@@ -1,9 +1,10 @@
 /**
  * Display a list of workshop talks in date order.
- * A stateless component.
+ * Optionally allow top three to be selected.
  */
 import React, { Component, PropTypes } from 'react'
-import { Button, Grid, Row, Col, Panel } from 'react-bootstrap'
+import { Grid, Row, Col } from 'react-bootstrap'
+import DaySchedule from './DaySchedule'
 
 class WorkshopSchedule extends Component {
   constructor(props) {
@@ -15,23 +16,11 @@ class WorkshopSchedule extends Component {
 
   render() {
     return (
-      <Grid fluid={true}>
-        <Row className="show-grid">
-          <Col xs={12} md={6}>
-            <div style={ { display: 'flex', justifyContent: 'space-between', textAlign: 'right', background:'lightgrey'}}>
-              <h4 style={ {paddingLeft: '1rem'} }>Monday 10th</h4>
-              <Button href="#" bsStyle="link" onClick={ () => this.setState({ open: !this.state.open }) }>Hide</Button> 
-            </div>
-            <Panel collapsible expanded={this.state.open}>
-              <h3>Workshop schedule 1 place holder.</h3>
-              <Button bsStyle="primary" bsSize="large" block>Block level button</Button>      
-            </Panel>
-          </Col> 
-          <Col xs={12} md={6}>
-            <Panel>        
-              <h3>Workshop schedule 2 place holder.</h3>
-              <Button bsStyle="primary" bsSize="large" block>Block level button</Button>      
-            </Panel>
+      <Grid fluid={true} style={{padding : '0px 2px'}}>
+        <Row>
+          <Col xs={12} mdOffset={1} md={6}>
+            <DaySchedule dateHeader='Monday 6th' dayTalkSchedule={[]} />
+            <DaySchedule dateHeader='Tuesday 7th' dayTalkSchedule={[]} />
           </Col> 
         </Row>
       </Grid>
