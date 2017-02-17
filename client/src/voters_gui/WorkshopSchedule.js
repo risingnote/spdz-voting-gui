@@ -4,6 +4,7 @@
  */
 import React, { Component, PropTypes } from 'react'
 import { Grid, Row, Col } from 'react-bootstrap'
+import { List } from 'immutable'
 import DaySchedule from './DaySchedule'
 
 class WorkshopSchedule extends Component {
@@ -15,12 +16,16 @@ class WorkshopSchedule extends Component {
   }
 
   render() {
+    const talkScheduleDisplay = this.props.talkSchedule.map( (daySchedule) => {
+      return <DaySchedule dateHeader={daySchedule.get('displayDate')} 
+                dayTalkSchedule={daySchedule.get('talks')} key={daySchedule.get('displayDate')} />      
+    })
+
     return (
       <Grid fluid={true} style={{padding : '0px 2px'}}>
         <Row>
           <Col xs={12} mdOffset={1} md={6}>
-            <DaySchedule dateHeader='Monday 6th' dayTalkSchedule={[]} />
-            <DaySchedule dateHeader='Tuesday 7th' dayTalkSchedule={[]} />
+            {talkScheduleDisplay}
           </Col> 
         </Row>
       </Grid>
@@ -29,7 +34,7 @@ class WorkshopSchedule extends Component {
 }
 
 WorkshopSchedule.propTypes = {
-  talkSchedule: PropTypes.array.isRequired
+  talkSchedule: PropTypes.instanceOf(List).isRequired
 }
 
 export default WorkshopSchedule
