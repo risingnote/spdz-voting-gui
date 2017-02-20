@@ -1,17 +1,20 @@
 /**
  * Display a list of workshop talks in date order.
- * Optionally allow top three to be selected.
+ * Allow all talks to be collapsed.
  */
 import React, { Component, PropTypes } from 'react'
-import { Grid, Row, Col } from 'react-bootstrap'
+import { Grid, Row, Col, Panel } from 'react-bootstrap'
 import { List } from 'immutable'
+
+import './WorkshopSchedule.css'
+import PanelHeader from './PanelHeader'
 import DaySchedule from './DaySchedule'
 
 class WorkshopSchedule extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      open: true
+      talkScheduleOpen: false
     }
   }
 
@@ -22,10 +25,15 @@ class WorkshopSchedule extends Component {
     })
 
     return (
-      <Grid fluid={true} style={{padding : '0px 2px'}}>
+      <Grid className="WorkshopSchedule" fluid={true} style={{padding : '0px 2px'}}>
         <Row>
           <Col xs={12} mdOffset={1} md={6}>
-            {talkScheduleDisplay}
+            <PanelHeader heading={'Choose 3 Talks'}
+                         open={this.state.talkScheduleOpen}
+                         onClickState={() => this.setState({ talkScheduleOpen: !this.state.talkScheduleOpen })} />
+            <Panel className="WorkshopSchedule-panel" collapsible expanded={this.state.talkScheduleOpen}>
+              {talkScheduleDisplay}
+            </Panel>
           </Col> 
         </Row>
       </Grid>

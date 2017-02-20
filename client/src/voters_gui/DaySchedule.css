@@ -1,20 +1,4 @@
 /* Extra classes are needed to get higher specificity than bootstrap */
-.DaySchedule .DaySchedule-header {
-  border-radius: 3px;
-  display: flex;
-  justify-content: space-between;
-  text-align: right;
-  background: lightblue;
-}
-
-.DaySchedule .DaySchedule-header h4 {
-  padding-left: 1rem;
-}
-
-.DaySchedule .DaySchedule-header button {
-  background: lightblue;
-}
-
 .DaySchedule .DaySchedule-content {
   margin-bottom: 0;
 }

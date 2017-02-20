@@ -2,8 +2,9 @@
  * Display a list of workshop talks in time order for a specific day.
  */
 import React, { Component, PropTypes } from 'react'
-import { Button, Panel, Glyphicon, Row, Col } from 'react-bootstrap'
+import { Panel, Row, Col } from 'react-bootstrap'
 import { List } from 'immutable'
+import PanelHeader from './PanelHeader'
 import './DaySchedule.css'
 
 class DaySchedule extends Component {
@@ -15,9 +16,6 @@ class DaySchedule extends Component {
   }
 
   render() {
-    const upDownGlyph = this.state.open ? 'arrow-up' : 'arrow-down'
-    const upDownAltText = this.state.open ? "Hide Schedule For This Day" : "Show Schedule For This Day"
-
     const talkList = this.props.dayTalkSchedule.map( (talk) => {
       return <Row className="DaySchedule-row" key={talk.get('id')}>
               <Col xs={2} md={2} className="DaySchedule-col">{talk.get('displayTime')}</Col>
@@ -28,13 +26,9 @@ class DaySchedule extends Component {
 
     return (
       <div className="DaySchedule">
-        <div className="DaySchedule-header">
-          <h4>{this.props.dateHeader}</h4>
-          <Button bsSize="large" onClick={ () => this.setState({ open: !this.state.open }) }>
-            <Glyphicon glyph={upDownGlyph} aria-label={upDownAltText} />
-          </Button>
-        </div>
-
+        <PanelHeader heading={this.props.dateHeader}
+                     open={this.state.open}
+                     onClickState={() => this.setState({ open: !this.state.open })} />
         <Panel className="DaySchedule-content" collapsible expanded={this.state.open}>
           {talkList}
         </Panel>
