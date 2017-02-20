@@ -1,12 +1,4 @@
 /* Extra classes are needed to get higher specificity than bootstrap */
-.DaySchedule .DaySchedule-content {
-  margin-bottom: 0;
-}
-
-.DaySchedule .DaySchedule-content .panel-body {
-  padding: 5px 15px;
-}
-
 .DaySchedule-row {
   padding: 5px 0px;
   border-bottom: 1px solid lightblue;

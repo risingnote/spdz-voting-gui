@@ -1,0 +1,4 @@
+/* Stop panel adding extra padding. */
+.Display-panel .panel-body {
+  padding: 0px;
+}
