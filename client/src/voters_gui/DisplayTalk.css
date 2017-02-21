@@ -1,20 +1,25 @@
 /* Extra classes are needed to get higher specificity than bootstrap */
-.DaySchedule-row {
+.DisplayTalk-row {
   padding: 5px 0px;
   border-bottom: 1px solid lightblue;
 }
 
-.DaySchedule-row:last-child {
+.DisplayTalk-row:last-child {
   padding: 5px 0px;
   border-bottom: 0px;
 }
 
-.DaySchedule-row .DaySchedule-col {
+.DisplayTalk-row .DisplayTalk-col {
   padding: 0px 5px;
 }
 
-.DaySchedule-row .DaySchedule-author {
+.DisplayTalk-row .DisplayTalk-author {
   padding: 0px 5px;  
   color: #e85a32;
   font-weight: 600;
+}
+
+.DisplayTalk-row .DisplayTalk-missing {
+  padding: 0px 5px;  
+  color: #999;
 }

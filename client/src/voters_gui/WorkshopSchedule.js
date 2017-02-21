@@ -16,7 +16,7 @@ const WorkshopSchedule = (props) => {
   })
 
   return (
-    <DisplayPanel heading={'Select 3 Talks'} collapsible={true} 
+    <DisplayPanel heading={'Choose Favourite Talks'} collapsible={true} 
       expandedAtStart={false} noBorder={true} content={talkScheduleDisplay} />
   )
 }

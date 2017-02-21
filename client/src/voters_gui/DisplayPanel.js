@@ -10,7 +10,7 @@ class DisplayPanel extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      panelExpanded: this.props.expandedAtStart
+      panelExpanded: (this.props.collapsible && this.props.expandedAtStart) || !this.props.collapsible || false
     }
   }  
 
