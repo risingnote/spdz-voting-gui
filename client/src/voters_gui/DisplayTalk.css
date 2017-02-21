@@ -23,3 +23,18 @@
   padding: 0px 5px;  
   color: #999;
 }
+
+.DisplayTalk-row .DisplayTalk-vote button {
+  padding: 0px 5px 0px 5px;
+  color: #999;
+  font-size: 26px;
+  padding: 1px;
+  border-width: 0;
+  background: white;
+}
+
+.DisplayTalk-row .DisplayTalk-vote button span.selected:before {
+  content: '\2605';
+  color: gold;
+  position: absolute;
+}

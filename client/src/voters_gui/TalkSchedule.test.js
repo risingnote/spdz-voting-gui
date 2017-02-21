@@ -1,5 +1,5 @@
 import { List, Map } from 'immutable'
-import talkScheduleConverter from './TalkSchedule'
+import { talkScheduleConverter, extractVotedTalks } from './TalkSchedule'
 
 const myjson = 
 [
@@ -116,6 +116,26 @@ test('Given a json structure with incorrect date format, I get an error', () => 
         'Given a date 2017-04-01 +0000 which is not in the expected format of YYYY-MM-DD HH:mm Z.')
     }
   })
+
+describe('Given a list of voter ids I can extract the matching talks', () => {
+  test('I can successfully read for 3 talks', () => {
+    const result = extractVotedTalks( List(['1','2','3']), reformatted )
+    expect(result.size).toEqual(3)
+    expect(result.get(0)).toEqual(Map({"id": "1", "speaker": "Alice", "title": "Not a talk"}))
+  })
+
+  test('I can successfully read for 1 talk', () => {
+    const result = extractVotedTalks( List(['3']), reformatted )
+    expect(result.size).toEqual(1)
+    expect(result.get(0)).toEqual(Map({"id": "3", "speaker": "Start time", "title": ""}))
+  })  
+
+  test('It will gracefully fail if an invalid talk id is passed in', () => {
+    const result = extractVotedTalks( List(['45', '2']), reformatted )
+    expect(result.size).toEqual(1)
+    expect(result.get(0)).toEqual(Map({"id": "2", "speaker": "Bob", "title": "Not another talk"})) 
+  })    
+})
 
 })
  

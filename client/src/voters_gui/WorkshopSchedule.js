@@ -12,7 +12,10 @@ const WorkshopSchedule = (props) => {
 
   const talkScheduleDisplay = props.talkSchedule.map( (daySchedule) => {
     return <DaySchedule dateHeader={daySchedule.get('displayDate')} 
-              dayTalkSchedule={daySchedule.get('talks')} key={daySchedule.get('displayDate')} />      
+                        dayTalkSchedule={daySchedule.get('talks')} 
+                        selectedTalkIds={props.selectedTalkIds}
+                        voteOn={props.voteOn} 
+                        key={daySchedule.get('displayDate')} />      
   })
 
   return (
@@ -21,8 +24,11 @@ const WorkshopSchedule = (props) => {
   )
 }
 
+ 
 WorkshopSchedule.propTypes = {
-  talkSchedule: PropTypes.instanceOf(List).isRequired
+  talkSchedule: PropTypes.instanceOf(List).isRequired,
+  selectedTalkIds: PropTypes.instanceOf(List).isRequired,  
+  voteOn: PropTypes.func.isRequired // (talkId: String, selected: Boolean)
 }
 
 export default WorkshopSchedule

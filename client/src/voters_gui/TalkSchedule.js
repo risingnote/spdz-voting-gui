@@ -128,7 +128,7 @@ const reformatStructure = (talkScheduleData) => {
  * ]
  * Throw TalkScheduleError if incorrect format.
  */
-export default (jsonData) => {
+const talkScheduleConverter = (jsonData) => {
   if (!isArray(jsonData)) {
     throw new TalkScheduleError(`Expecting an array of talks, got ${JSON.stringify(jsonData)}.`)
   }
@@ -139,3 +139,30 @@ export default (jsonData) => {
 
   return reformatStructure(talkScheduleData)
 }
+
+/**
+ * Given a list of voter ids get the speaker and title from talkSchedule
+ */
+const extractVotedTalks = (talkIds, talkSchedule) => {
+  const votedTalks = talkIds.map( (talkId, index) => {
+    let matchedTalk = undefined
+    for (let daySchedule of talkSchedule.values()) {
+      for (let talk of daySchedule.get('talks').values()) {
+        if (talk.get('id') === talkId) {
+          matchedTalk = talk
+          break
+        }
+      }
+    }
+    if (matchedTalk !== undefined) {
+      return Map({id: matchedTalk.get('id'), speaker: matchedTalk.get('speaker'), title: matchedTalk.get('title')})
+    }
+    else {
+      console.log(`Unable to find details for talk id ${talkId} in voted talks.`)
+      return undefined
+    }
+  })
+  return votedTalks.filter(talk => talk !== undefined)
+}
+
+export { talkScheduleConverter, extractVotedTalks }
