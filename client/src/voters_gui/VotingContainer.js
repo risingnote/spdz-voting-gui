@@ -11,7 +11,7 @@ import { List } from 'immutable'
 import WorkshopSchedule from './WorkshopSchedule'
 import { talkScheduleConverter, extractVotedTalks } from './TalkSchedule'
 import VoteChoice from './VoteChoice'
-import VoteForm from './VoteForm'
+import VoteFormContainer from './VoteFormContainer'
 import Connection from './Connection'
 
 // TODO temp only
@@ -63,14 +63,20 @@ class VotingContainer extends Component {
         <Grid fluid={true} style={{padding : '0px 2px'}}>
           <Row>
             <Col xs={12}>
-              <VoteChoice talks={extractVotedTalks(this.state.selectedTalkIds, this.state.talkSchedule)} />
+              <div style={{marginBottom: '1rem'}}>            
+                <VoteChoice talks={extractVotedTalks(this.state.selectedTalkIds, this.state.talkSchedule)} />
+              </div>
             </Col> 
             <Col xs={12}>
-              <WorkshopSchedule talkSchedule={this.state.talkSchedule} 
-                      voteOn={this.votingClick} selectedTalkIds={this.state.selectedTalkIds}/>
+              <div style={{marginBottom: '1rem'}}>            
+                <WorkshopSchedule talkSchedule={this.state.talkSchedule} 
+                        voteOn={this.votingClick} selectedTalkIds={this.state.selectedTalkIds}/>
+              </div>
             </Col> 
             <Col xs={12}>
-              <VoteForm />
+              <div style={{marginBottom: '1rem'}}>                        
+                <VoteFormContainer selectedTalkIds={this.state.selectedTalkIds}/>
+              </div>
             </Col> 
             <Col xs={12}>
               <Connection />
@@ -81,30 +87,34 @@ class VotingContainer extends Component {
     }
     else {
       return (
-        <Grid fluid={true} style={{padding : '0px 2px'}}>
+        <Grid fluid={true} style={{padding : '0px 2px', marginTop: '1rem'}}>
           <Row>
             <Col md={6}>
               <Row>
                 <Col md={12}>
-                  <VoteChoice talks={extractVotedTalks(this.state.selectedTalkIds, this.state.talkSchedule)} />
+                  <div style={{marginBottom: '1rem'}}>
+                    <VoteChoice talks={extractVotedTalks(this.state.selectedTalkIds, this.state.talkSchedule)} />
+                  </div>
                 </Col>
               </Row>
               <Row>
                 <Col md={12}>
-                  <VoteForm />                
+                  <VoteFormContainer selectedTalkIds={this.state.selectedTalkIds}/>                
                 </Col>
               </Row>
             </Col>
             <Col md={6}>
               <Row>
                 <Col md={12}>
-                  <Connection />                
+                  <div style={{marginBottom: '1rem'}}>                                        
+                    <WorkshopSchedule talkSchedule={this.state.talkSchedule} 
+                            voteOn={this.votingClick} selectedTalkIds={this.state.selectedTalkIds}/>
+                  </div>
                 </Col>
               </Row>
               <Row>
                 <Col md={12}>
-                  <WorkshopSchedule talkSchedule={this.state.talkSchedule} 
-                          voteOn={this.votingClick} selectedTalkIds={this.state.selectedTalkIds}/>
+                  <Connection />                
                 </Col>
               </Row>
             </Col> 

@@ -1,0 +1,6 @@
+/* Force mobile input text to 16px to stop auto zoom. */
+@media (max-width: 768px) {
+  .VoteForm input[type="text"] {
+    font-size: 16px;
+  }
+}
