@@ -12,7 +12,7 @@ import WorkshopSchedule from './WorkshopSchedule'
 import { talkScheduleConverter, extractVotedTalks } from './TalkSchedule'
 import VoteChoice from './VoteChoice'
 import VoteFormContainer from './VoteFormContainer'
-import Connection from './Connection'
+import ConnectionStatus from './ConnectionStatus'
 
 // TODO temp only
 import exampleTalks from '../test_support/exampleTalks'
@@ -23,7 +23,8 @@ class VotingContainer extends Component {
     this.state = {
       mobileLayout: (window.innerWidth <= 768),
       talkSchedule: talkScheduleConverter(exampleTalks), // Will be moved to REST call in componentDidMount
-      selectedTalkIds: List() // List of talk ids
+      selectedTalkIds: List(), // List of selected talk ids
+      spdzProxyStatus: []
     }
     this.votingClick = this.votingClick.bind(this)
     this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
@@ -44,6 +45,8 @@ class VotingContainer extends Component {
 
   /**
    * Update the voting list, add to end and keep list >= 3 talks
+   * @params {talkId} String identifier for talk
+   * @params {selected} boolean, true meaning adding, false meaning removing
    */
   votingClick(talkId, selected) {
     let updatedList
@@ -64,13 +67,13 @@ class VotingContainer extends Component {
           <Row>
             <Col xs={12}>
               <div style={{marginBottom: '1rem'}}>            
-                <VoteChoice talks={extractVotedTalks(this.state.selectedTalkIds, this.state.talkSchedule)} />
+                <WorkshopSchedule talkSchedule={this.state.talkSchedule} 
+                        voteOn={this.votingClick} selectedTalkIds={this.state.selectedTalkIds}/>
               </div>
             </Col> 
             <Col xs={12}>
               <div style={{marginBottom: '1rem'}}>            
-                <WorkshopSchedule talkSchedule={this.state.talkSchedule} 
-                        voteOn={this.votingClick} selectedTalkIds={this.state.selectedTalkIds}/>
+                <VoteChoice talks={extractVotedTalks(this.state.selectedTalkIds, this.state.talkSchedule)} />
               </div>
             </Col> 
             <Col xs={12}>
@@ -79,7 +82,7 @@ class VotingContainer extends Component {
               </div>
             </Col> 
             <Col xs={12}>
-              <Connection />
+              <ConnectionStatus spdzProxyServerList={List()} spdzProxyStatus={[]} />    
             </Col> 
           </Row>
         </Grid>
@@ -114,7 +117,7 @@ class VotingContainer extends Component {
               </Row>
               <Row>
                 <Col md={12}>
-                  <Connection />                
+                  <ConnectionStatus spdzProxyServerList={List()} spdzProxyStatus={this.state.spdzProxyStatus} />    
                 </Col>
               </Row>
             </Col> 

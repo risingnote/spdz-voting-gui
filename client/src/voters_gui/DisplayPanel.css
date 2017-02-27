@@ -1,4 +1,7 @@
-/* Stop panel adding extra padding. */
+/**
+ * Stop panel adding extra padding. Needed here because don't have direct access to
+ * div with panel-body class to add inline styling.
+ */
 .Display-panel .panel-body {
   padding: 0px;
 }
