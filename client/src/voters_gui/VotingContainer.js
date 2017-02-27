@@ -4,7 +4,7 @@
  *  coordinate presentation components
  *  external actions (via REST) ?
  */
-import React, { Component } from 'react'
+import React, { PropTypes, Component } from 'react'
 import { Grid, Row, Col } from 'react-bootstrap'
 import { List } from 'immutable'
 
@@ -78,11 +78,15 @@ class VotingContainer extends Component {
             </Col> 
             <Col xs={12}>
               <div style={{marginBottom: '1rem'}}>                        
-                <VoteFormContainer selectedTalkIds={this.state.selectedTalkIds}/>
+                <VoteFormContainer selectedTalkIds={this.state.selectedTalkIds} 
+                                   spdzProxyServerList={this.props.spdzProxyServerList}                 
+                                   spdzApiRoot={this.props.spdzApiRoot}
+                                   clientPublicKey={this.props.clientPublicKey}/>
               </div>
             </Col> 
             <Col xs={12}>
-              <ConnectionStatus spdzProxyServerList={List()} spdzProxyStatus={[]} />    
+              <ConnectionStatus spdzProxyServerList={this.props.spdzProxyServerList} 
+                                spdzProxyStatus={this.state.spdzProxyStatus} />    
             </Col> 
           </Row>
         </Grid>
@@ -102,7 +106,10 @@ class VotingContainer extends Component {
               </Row>
               <Row>
                 <Col md={12}>
-                  <VoteFormContainer selectedTalkIds={this.state.selectedTalkIds}/>                
+                  <VoteFormContainer selectedTalkIds={this.state.selectedTalkIds}
+                                     spdzProxyServerList={this.props.spdzProxyServerList} 
+                                     spdzApiRoot={this.props.spdzApiRoot}
+                                     clientPublicKey={this.props.clientPublicKey}/>
                 </Col>
               </Row>
             </Col>
@@ -117,7 +124,8 @@ class VotingContainer extends Component {
               </Row>
               <Row>
                 <Col md={12}>
-                  <ConnectionStatus spdzProxyServerList={List()} spdzProxyStatus={this.state.spdzProxyStatus} />    
+                  <ConnectionStatus spdzProxyServerList={this.props.spdzProxyServerList} 
+                                    spdzProxyStatus={this.state.spdzProxyStatus} />    
                 </Col>
               </Row>
             </Col> 
@@ -126,6 +134,12 @@ class VotingContainer extends Component {
       )
     }
   }
+}
+
+VotingContainer.propTypes = {
+  spdzProxyServerList: PropTypes.instanceOf(List).isRequired,
+  spdzApiRoot: PropTypes.string.isRequired,
+  clientPublicKey: PropTypes.string.isRequired
 }
 
 export default VotingContainer

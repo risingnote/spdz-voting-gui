@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
+import { setupWrapper } from 'spdz-gui-components'
+
 import spdzlogo from './spdz_logo.svg'
 import './App.css'
 import VotingContainer from './voters_gui/VotingContainer'
+
+const GuiWithSetup = setupWrapper(VotingContainer)
 
 class App extends Component {
   render() {
@@ -15,7 +19,7 @@ class App extends Component {
           <h4><a href="http://www.multipartycomputation.com/tpmpc-2017">TMPC Workshop 2017</a></h4>
         </div>
         <main className="App-main">
-          <VotingContainer />
+          <GuiWithSetup />
         </main>
       </div>
     )

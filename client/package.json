@@ -20,6 +20,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
+  "proxy": "http://localhost:3001",
   "devDependencies": {
     "react-scripts": "0.9.0"
   },
@@ -28,7 +29,7 @@
     "react": "^15.4.2",
     "react-bootstrap": "^0.30.7",
     "react-dom": "^15.4.2",
-    "spdz-gui-components": "git+ssh://git@github.com/bristolcrypto/spdz-gui-components.git#v0.1.0"
+    "spdz-gui-components": "git+ssh://git@github.com/bristolcrypto/spdz-gui-components.git#v0.1.1"
   },
   "scripts": {
     "start": "react-scripts start",

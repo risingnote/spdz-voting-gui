@@ -13,22 +13,16 @@ const ConnectionStatus = (props) => {
   }
 
   const connectionHeaderStyle = {
-    color: 'rgb(55,55,55)',
-    fontSize: '16px'
+    color: 'rgb(55,55,55)'
   }
 
-  const connectionUrlStyle = {
-    fontSize: '14px'
-  }
-  
   return (
     <div className='panel panel-default' style={{ margin: '0' }}>
       <div className='panel-body' style={{padding: '10px'}}>
         <Connection spdzProxyServerList={props.spdzProxyServerList} 
                     spdzProxyStatus={props.spdzProxyStatus}
                     componentStyle={connectionStyle}
-                    headerStyle={connectionHeaderStyle}
-                    urlStyle={connectionUrlStyle} />
+                    headerStyle={connectionHeaderStyle} />
       </div>
     </div>
   )
