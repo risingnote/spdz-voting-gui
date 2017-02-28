@@ -16,30 +16,26 @@ class DisplayPanel extends Component {
 
   // Use inline styles as higher specificity than bootstrap.
   render() {
-    const upDownGlyph = this.state.panelExpanded ? 'arrow-up' : 'arrow-down'
-    const upDownAltText = this.state.panelExpanded ? "Hide " + this.props.heading : "Show "  + this.props.heading
-
-    const hdrContainerStyle = {
+    
+    const hdrStyle = {
+      padding: '2px 8px',
       borderRadius: '3px 3px 0 0',
       borderTop: '1px solid #ddd',
       borderLeft: '1px solid #ddd',
       borderRight: '1px solid #ddd',
       borderBottom: '1px solid #bbb',
+      background: '#c4e3ed'
+    }
+
+    const hdrLayoutStyle = {
       display: 'flex',
       justifyContent: 'space-between',
-      alignItems: 'center',
-      background: '#c4e3ed'    
+      alignItems: 'center'
     }
 
     const hdrTitleStyle = {
       fontSize: '16px',
-      paddingLeft: '1rem'
-    }
-
-    const hdrButtonStyle = {
-      padding: '8px 16px',
-      borderWidth: '0',
-      background: '#c4e3ed'
+      paddingLeft: '0'
     }
 
     const panelStyle = this.props.noBorder ? 
@@ -54,18 +50,26 @@ class DisplayPanel extends Component {
       margin: '0px'      
     }
 
-    const optionalCollapseBtn = this.props.collapsible ? 
-        <Button bsSize="large" style={hdrButtonStyle} 
-            onClick={() => this.setState({ panelExpanded: !this.state.panelExpanded })}>
+    const upDownGlyph = this.state.panelExpanded ? 'arrow-up' : 'arrow-down'
+    const upDownAltText = this.state.panelExpanded ? "Hide " + this.props.heading : "Show "  + this.props.heading
+
+    const panelHeader = this.props.collapsible ?
+      <Button bsSize="large" block style={hdrStyle} onClick={() => this.setState({ panelExpanded: !this.state.panelExpanded })}>
+        <div style={hdrLayoutStyle}>
+          <h4 style={hdrTitleStyle}>{this.props.heading}</h4>
           <Glyphicon glyph={upDownGlyph} aria-label={upDownAltText} />
-        </Button> : ''
+        </div>
+      </Button> 
+      :
+      <div style={hdrStyle}>
+        <div style={hdrLayoutStyle}>
+          <h4 style={hdrTitleStyle}>{this.props.heading}</h4>
+        </div>
+      </div> 
 
     return (
       <div>
-        <div style={hdrContainerStyle}>
-          <h4 style={hdrTitleStyle}>{this.props.heading}</h4>
-          {optionalCollapseBtn}
-        </div>
+        {panelHeader}
 
         <Panel className="Display-panel" style={panelStyle} collapsible expanded={this.state.panelExpanded}>
           {this.props.content}

@@ -1,11 +1,9 @@
 /**
  * Container to manage:
- *  voting page high level layout
- *  coordinate presentation components
+ *  coordination of state between presentation components
  *  external actions (via REST) ?
  */
 import React, { PropTypes, Component } from 'react'
-import { Grid, Row, Col } from 'react-bootstrap'
 import { List } from 'immutable'
 
 import WorkshopSchedule from './WorkshopSchedule'
@@ -13,6 +11,7 @@ import { talkScheduleConverter, extractVotedTalks } from './TalkSchedule'
 import VoteChoice from './VoteChoice'
 import VoteFormContainer from './VoteFormContainer'
 import ConnectionStatus from './ConnectionStatus'
+import VotingLayout from './VotingLayout'
 
 // TODO temp only
 import exampleTalks from '../test_support/exampleTalks'
@@ -21,26 +20,11 @@ class VotingContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      mobileLayout: (window.innerWidth <= 768),
       talkSchedule: talkScheduleConverter(exampleTalks), // Will be moved to REST call in componentDidMount
       selectedTalkIds: List(), // List of selected talk ids
       spdzProxyStatus: []
     }
     this.votingClick = this.votingClick.bind(this)
-    this.handleWindowSizeChange = this.handleWindowSizeChange.bind(this)
-  }
-
-  componentWillMount() {
-    window.addEventListener('resize', this.handleWindowSizeChange)
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.handleWindowSizeChange)
-  }
-  
-  handleWindowSizeChange = () => {
-    const isMobile = window.innerWidth <= 768
-    this.setState({ mobileLayout: isMobile })
   }
 
   /**
@@ -61,78 +45,24 @@ class VotingContainer extends Component {
   }
 
   render() {
-    if (this.state.mobileLayout) {
-      return (
-        <Grid fluid={true} style={{padding : '0px 2px'}}>
-          <Row>
-            <Col xs={12}>
-              <div style={{marginBottom: '1rem'}}>            
-                <WorkshopSchedule talkSchedule={this.state.talkSchedule} 
-                        voteOn={this.votingClick} selectedTalkIds={this.state.selectedTalkIds}/>
-              </div>
-            </Col> 
-            <Col xs={12}>
-              <div style={{marginBottom: '1rem'}}>            
-                <VoteChoice talks={extractVotedTalks(this.state.selectedTalkIds, this.state.talkSchedule)} />
-              </div>
-            </Col> 
-            <Col xs={12}>
-              <div style={{marginBottom: '1rem'}}>                        
-                <VoteFormContainer selectedTalkIds={this.state.selectedTalkIds} 
-                                   spdzProxyServerList={this.props.spdzProxyServerList}                 
-                                   spdzApiRoot={this.props.spdzApiRoot}
-                                   clientPublicKey={this.props.clientPublicKey}/>
-              </div>
-            </Col> 
-            <Col xs={12}>
-              <ConnectionStatus spdzProxyServerList={this.props.spdzProxyServerList} 
-                                spdzProxyStatus={this.state.spdzProxyStatus} />    
-            </Col> 
-          </Row>
-        </Grid>
-      )
-    }
-    else {
-      return (
-        <Grid fluid={true} style={{padding : '0px 2px', marginTop: '1rem'}}>
-          <Row>
-            <Col md={6}>
-              <Row>
-                <Col md={12}>
-                  <div style={{marginBottom: '1rem'}}>
-                    <VoteChoice talks={extractVotedTalks(this.state.selectedTalkIds, this.state.talkSchedule)} />
-                  </div>
-                </Col>
-              </Row>
-              <Row>
-                <Col md={12}>
-                  <VoteFormContainer selectedTalkIds={this.state.selectedTalkIds}
-                                     spdzProxyServerList={this.props.spdzProxyServerList} 
-                                     spdzApiRoot={this.props.spdzApiRoot}
-                                     clientPublicKey={this.props.clientPublicKey}/>
-                </Col>
-              </Row>
-            </Col>
-            <Col md={6}>
-              <Row>
-                <Col md={12}>
-                  <div style={{marginBottom: '1rem'}}>                                        
-                    <WorkshopSchedule talkSchedule={this.state.talkSchedule} 
-                            voteOn={this.votingClick} selectedTalkIds={this.state.selectedTalkIds}/>
-                  </div>
-                </Col>
-              </Row>
-              <Row>
-                <Col md={12}>
-                  <ConnectionStatus spdzProxyServerList={this.props.spdzProxyServerList} 
-                                    spdzProxyStatus={this.state.spdzProxyStatus} />    
-                </Col>
-              </Row>
-            </Col> 
-          </Row>
-        </Grid>
-      )
-    }
+    const workshopSchedule = <WorkshopSchedule talkSchedule={this.state.talkSchedule} 
+                                               voteOn={this.votingClick}
+                                               selectedTalkIds={this.state.selectedTalkIds}/>
+
+    const voteChoice = <VoteChoice talks={extractVotedTalks(this.state.selectedTalkIds, this.state.talkSchedule)} />                                               
+
+    const voteFormContainer = <VoteFormContainer selectedTalkIds={this.state.selectedTalkIds} 
+                                                 spdzProxyServerList={this.props.spdzProxyServerList}                 
+                                                 spdzApiRoot={this.props.spdzApiRoot}
+                                                 clientPublicKey={this.props.clientPublicKey}/>
+
+    const connectionStatus = <ConnectionStatus spdzProxyServerList={this.props.spdzProxyServerList} 
+                                               spdzProxyStatus={this.state.spdzProxyStatus} />
+
+    return (
+      <VotingLayout workshopSchedule={workshopSchedule} voteChoice={voteChoice}
+                    voteFormContainer={voteFormContainer} connectionStatus={connectionStatus} />
+    )
   }
 }
 
