@@ -7,11 +7,11 @@
 import React, { PropTypes, Component } from 'react'
 import { List } from 'immutable'
 
-import WorkshopSchedule from './WorkshopSchedule'
-import { talkScheduleConverter, extractVotedTalks } from './TalkSchedule'
-import VoteChoice from './VoteChoice'
-import VoteFormContainer from './VoteFormContainer'
-import ConnectionStatus from './ConnectionStatus'
+import WorkshopSchedule from './schedule/WorkshopSchedule'
+import { talkScheduleConverter, extractVotedTalks } from './schedule/TalkSchedule'
+import VoteChoice from './other/VoteChoice'
+import VoteFormContainer from './other/VoteFormContainer'
+import ConnectionStatus from './other/ConnectionStatus'
 import VotingLayout from './VotingLayout'
 import { getTalks } from '../voters_lib/VotingApi'
 
