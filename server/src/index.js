@@ -8,6 +8,7 @@ const http = require('http')
 const compression = require('compression')
 const guiConfig = require('../config/spdzGui.json')
 const proxyConfig = require('../config/spdzProxy.json')
+const workshopSchedule = require('../config/workshopSchedule.json')
 
 const guiPortNum = guiConfig.portNum || '8080'
 const environ = process.env.NODE_ENV || 'development'
@@ -25,6 +26,10 @@ if (environ !== 'development') {
 
 app.get('/spdzProxyConfig', (req, res) => {
   res.json(proxyConfig)
+})
+
+app.get('/talks', (req, res) => {
+  res.json(workshopSchedule)
 })
 
 app.disable('x-powered-by')

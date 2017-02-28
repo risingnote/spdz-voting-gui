@@ -1,7 +1,8 @@
 /**
  * Container to manage:
  *  coordination of state between presentation components
- *  external actions (via REST) ?
+ *  external actions:
+ *    read list of workshop talks from REST endpoint
  */
 import React, { PropTypes, Component } from 'react'
 import { List } from 'immutable'
@@ -12,19 +13,27 @@ import VoteChoice from './VoteChoice'
 import VoteFormContainer from './VoteFormContainer'
 import ConnectionStatus from './ConnectionStatus'
 import VotingLayout from './VotingLayout'
-
-// TODO temp only
-import exampleTalks from '../test_support/exampleTalks'
+import { getTalks } from '../voters_lib/VotingApi'
 
 class VotingContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      talkSchedule: talkScheduleConverter(exampleTalks), // Will be moved to REST call in componentDidMount
+      talkSchedule: List(),
       selectedTalkIds: List(), // List of selected talk ids
       spdzProxyStatus: []
     }
     this.votingClick = this.votingClick.bind(this)
+  }
+
+  componentDidMount() {
+    getTalks()
+      .then((json) => {
+        this.setState({talkSchedule: talkScheduleConverter(json)})          
+      })
+      .catch((ex) => {
+        console.log(ex)
+      })
   }
 
   /**
