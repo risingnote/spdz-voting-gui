@@ -2,6 +2,7 @@
  * Display a single workshop talk as a bootstrap row.
  * Allow talk to be voted on (selected or de-selected).
  * Doesn't maintain own state, relies on votingClick to feed it back.
+ *
  */
 import React, { PropTypes } from 'react'
 import { Row, Col, Button } from 'react-bootstrap'
@@ -10,18 +11,34 @@ import './DisplayTalk.css'
 
 const DisplayTalk = (props) => {
 
-  const votingClick = () => {
+  const votingClick = (event) => {
+    event.stopPropagation()
     props.voteOn(props.talk.get('id'), !props.selected)
   }
 
-  const showStar = !props.talk.get('infoOnly', true)
-  const votingStar =  showStar ?
+  const allowVoting = !props.talk.get('infoOnly', true)
+  const votingStar =  allowVoting ?
       <Button bsSize="large" onClick={votingClick}>
         <span className={props.selected ? "selected" : ""}>{'\u2606'}</span>
       </Button> : ''
 
+  // There seems to be a lag when using the Row click handler over the button click handler
+  // on IOS Safari. Seems to be solved by setting touchAction css property.
+  // See http://stackoverflow.com/questions/12238587/eliminate-300ms-delay-on-click-events-in-mobile-safari
+  const rowAdditionalStyle = allowVoting ?
+    {
+      margin: '0px',
+      cursor: 'pointer',
+      touchAction: 'manipulation'
+    }
+    :
+    {
+      margin: '0px'
+    }
+
   return (
-      <Row className="DisplayTalk-row" style={{margin: '0px'}} key={props.talk.get('id')}>
+      <Row className="DisplayTalk-row" style={rowAdditionalStyle} 
+           key={props.talk.get('id')} onClick={allowVoting ? votingClick : ''}>
         <Col xs={2} md={2} className="DisplayTalk-col">{props.talk.get('displayTime')}</Col>
         <Col xs={10} md={3} className="DisplayTalk-author">{props.talk.get('speaker')}</Col>
         <Col xs={2} md={1} className="DisplayTalk-vote">{votingStar}</Col>
