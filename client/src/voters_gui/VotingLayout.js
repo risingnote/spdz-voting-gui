@@ -28,7 +28,6 @@ class VotingLayout extends Component {
   }
 
   render() {
-
     if (this.state.mobileLayout) {
       return (
         <Grid fluid={true} style={{padding : '0px 2px'}}>

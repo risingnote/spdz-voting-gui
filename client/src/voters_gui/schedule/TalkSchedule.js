@@ -158,7 +158,6 @@ const extractVotedTalks = (talkIds, talkSchedule) => {
       return Map({id: matchedTalk.get('id'), speaker: matchedTalk.get('speaker'), title: matchedTalk.get('title')})
     }
     else {
-      console.log(`Unable to find details for talk id ${talkId} in voted talks.`)
       return undefined
     }
   })
