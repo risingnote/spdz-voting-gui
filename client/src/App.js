@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import { Router, Route, IndexRoute, Link, browserHistory } from 'react-router'
+import { Router, Route, IndexRoute, browserHistory } from 'react-router'
+import { Nav, NavItem, Navbar } from 'react-bootstrap'
+import { IndexLinkContainer } from 'react-router-bootstrap'
 import { setupWrapper } from 'spdz-gui-components'
 
 import spdzlogo from './spdz_logo.svg'
@@ -18,11 +20,33 @@ class App extends Component {
           <a title="Bristol Crypt Group SPDZ software" href="https://www.cs.bris.ac.uk/Research/CryptographySecurity/SPDZ/">
             <img src={spdzlogo} className='App-spdzlogo' alt="SPDZ logo" />
           </a>
-          <h3 style={ {margin: '10px'} }>Voting Demonstrator</h3>                    
-          <h4><a href="http://www.multipartycomputation.com/tpmpc-2017">TMPC Workshop 2017</a></h4>
-          <Link to="/vote">Vote</Link>
+          <h4>TMPC Workshop 2017</h4>                    
+          <Navbar inverse collapseOnSelect style={{marginBottom: '0', border: '0'}}>
+
+            <Navbar.Header>
+              <Navbar.Brand>
+                <span style={{color: 'lightblue', padding: '10px 15px'}}>Voting Demonstrator</span>
+              </Navbar.Brand>                
+              <Navbar.Toggle style={{marginTop: '2px'}}/>
+            </Navbar.Header>
+            <Navbar.Collapse>
+              <Nav pullRight>
+                <IndexLinkContainer to="/">
+                  <NavItem>Results</NavItem>
+                </IndexLinkContainer>
+                <IndexLinkContainer to="/vote">
+                  <NavItem>Vote</NavItem>
+                </IndexLinkContainer>
+                <IndexLinkContainer to="/about">
+                  <NavItem >About</NavItem>
+                </IndexLinkContainer>
+              </Nav>
+            </Navbar.Collapse>
+          </Navbar>
         </div>
+        
         <main className="App-main">
+
           {this.props.children}          
         </main>
       </div>
