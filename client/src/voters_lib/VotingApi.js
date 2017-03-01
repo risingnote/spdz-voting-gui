@@ -34,7 +34,7 @@ const parseIfJson = (response) => {
  * @returns {Promise} resolve to json from server or reject with Error.
  */
 const getTalks = () => {
-  return fetch('/talks',
+  return fetch('/api/talks',
       {
         method: 'GET',
         headers: {
