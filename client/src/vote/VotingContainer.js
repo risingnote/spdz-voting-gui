@@ -8,32 +8,20 @@ import React, { PropTypes, Component } from 'react'
 import { List } from 'immutable'
 
 import WorkshopSchedule from './schedule/WorkshopSchedule'
-import { talkScheduleConverter, extractVotedTalks } from './schedule/TalkSchedule'
+import { extractVotedTalks } from './schedule/TalkSchedule'
 import VoteChoice from './other/VoteChoice'
 import VoteFormContainer from './other/VoteFormContainer'
 import ConnectionStatus from './other/ConnectionStatus'
 import VotingLayout from './VotingLayout'
-import { getTalks } from '../voters_lib/VotingApi'
 
 class VotingContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      talkSchedule: List(),
       selectedTalkIds: List(), // List of selected talk ids
       spdzProxyStatus: []
     }
     this.votingClick = this.votingClick.bind(this)
-  }
-
-  componentDidMount() {
-    getTalks()
-      .then((json) => {
-        this.setState({talkSchedule: talkScheduleConverter(json)})          
-      })
-      .catch((ex) => {
-        console.log(ex)
-      })
   }
 
   /**
@@ -54,16 +42,17 @@ class VotingContainer extends Component {
   }
 
   render() {
-    const workshopSchedule = <WorkshopSchedule talkSchedule={this.state.talkSchedule} 
+    const workshopSchedule = <WorkshopSchedule talkSchedule={this.props.talkSchedule} 
                                                voteOn={this.votingClick}
                                                selectedTalkIds={this.state.selectedTalkIds}/>
 
-    const voteChoice = <VoteChoice talks={extractVotedTalks(this.state.selectedTalkIds, this.state.talkSchedule)} />                                               
+    const voteChoice = <VoteChoice talks={extractVotedTalks(this.state.selectedTalkIds, this.props.talkSchedule)} />                                               
 
     const voteFormContainer = <VoteFormContainer selectedTalkIds={this.state.selectedTalkIds} 
                                                  spdzProxyServerList={this.props.spdzProxyServerList}                 
                                                  spdzApiRoot={this.props.spdzApiRoot}
-                                                 clientPublicKey={this.props.clientPublicKey}/>
+                                                 clientPublicKey={this.props.clientPublicKey}
+                                                 proxyStatusChange={(newStatus) => this.setState({spdzProxyStatus: newStatus })}/>
 
     const connectionStatus = <ConnectionStatus spdzProxyServerList={this.props.spdzProxyServerList} 
                                                spdzProxyStatus={this.state.spdzProxyStatus} />
@@ -76,6 +65,7 @@ class VotingContainer extends Component {
 }
 
 VotingContainer.propTypes = {
+  talkSchedule: PropTypes.instanceOf(List),
   spdzProxyServerList: PropTypes.instanceOf(List).isRequired,
   spdzApiRoot: PropTypes.string.isRequired,
   clientPublicKey: PropTypes.string.isRequired

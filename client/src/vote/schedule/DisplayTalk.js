@@ -7,7 +7,7 @@
 import React, { PropTypes } from 'react'
 import { Row, Col, Button } from 'react-bootstrap'
 import { Map } from 'immutable'
-import './DisplayTalk.css'
+import '../../common/DisplayTalk.css'
 
 const DisplayTalk = (props) => {
 

@@ -1,5 +1,5 @@
 import { List, Map } from 'immutable'
-import { talkScheduleConverter, extractVotedTalks } from './TalkSchedule'
+import { talkScheduleConverter, extractVotedTalks, resultsEnriched } from './TalkSchedule'
 
 const myjson = 
 [
@@ -99,7 +99,7 @@ describe('Parse the schedule of talks into a usable data structure for the GUI',
     }
   })
 
-test('Given a json structure with incorrect date format, I get an error', () => {
+  test('Given a json structure with incorrect date format, I get an error', () => {
     try {
       const testData = [{
         "dateTime": "2017-04-01 +0000",
@@ -116,6 +116,7 @@ test('Given a json structure with incorrect date format, I get an error', () => 
         'Given a date 2017-04-01 +0000 which is not in the expected format of YYYY-MM-DD HH:mm Z.')
     }
   })
+})
 
 describe('Given a list of voter ids I can extract the matching talks', () => {
   test('I can successfully read for 3 talks', () => {
@@ -137,5 +138,17 @@ describe('Given a list of voter ids I can extract the matching talks', () => {
   })    
 })
 
+describe('Given a list of results I can enrich with the matching talks', () => {
+  test('I can successfully enrich the talks', () => {
+    const voteResults = [{talkId: '2', count: '57'}, {talkId: '1', count: '34'}]
+    const expectedEnrichedResults = List([
+      Map({"id": "2", "speaker": "Bob", "title": "Not another talk", "count": "57"}),
+      Map({"id": "1", "speaker": "Alice", "title": "Not a talk", "count": "34"})      
+    ])
+
+    const result = resultsEnriched( voteResults, reformatted )
+    expect(result.size).toEqual(2)
+    expect(result).toEqual(expectedEnrichedResults)
+  })
 })
  

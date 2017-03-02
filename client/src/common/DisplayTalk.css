@@ -24,6 +24,22 @@
   color: #999;
 }
 
+.DisplayTalk-row .DisplayTalk-result {
+  margin: 5px;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  padding: 3px 0px;
+  border-radius: 50%;
+  border: 1px solid #999;
+  background-color: goldenrod;
+}
+
+.DisplayTalk-row .DisplayTalk-result-missing {
+  padding: 10px 5px 0px 5px;  
+  color: #999;
+}
+
 .DisplayTalk-row .DisplayTalk-vote button {
   padding: 0px 5px 0px 5px;
   color: #999;

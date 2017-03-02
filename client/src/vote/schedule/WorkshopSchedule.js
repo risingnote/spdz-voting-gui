@@ -5,7 +5,7 @@
 import React, { PropTypes } from 'react'
 import { List } from 'immutable'
 
-import DisplayPanel from '../common/DisplayPanel'
+import DisplayPanel from '../../common/DisplayPanel'
 import DaySchedule from './DaySchedule'
 
 const WorkshopSchedule = (props) => {

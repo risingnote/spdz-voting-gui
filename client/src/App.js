@@ -1,19 +1,53 @@
+/**
+ * Provides both the top level App (inserted into body of html) 
+ * and routing rules AppRouter.
+ * App is responsible for getting talk schedule from GUI server. 
+ */
 import React, { Component } from 'react'
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import { Nav, NavItem, Navbar } from 'react-bootstrap'
 import { IndexLinkContainer } from 'react-router-bootstrap'
 import { setupWrapper } from 'spdz-gui-components'
+import { List } from 'immutable'
 
 import spdzlogo from './spdz_logo.svg'
 import './App.css'
 import VotingContainer from './vote/VotingContainer'
 import ResultsContainer from './results/ResultsContainer'
 import About from './about/About'
+import { getTalks } from './voters_lib/VotingApi'
+import { talkScheduleConverter } from './vote/schedule/TalkSchedule'
 
 const VoteWithSetup = setupWrapper(VotingContainer)
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      talkSchedule: List()
+    }
+  }
+
+  componentDidMount() {
+    getTalks()
+      .then((json) => {
+        this.setState({talkSchedule: talkScheduleConverter(json)}) 
+      })
+      .catch((ex) => {
+        console.log(ex)
+      })
+  }
+
   render() {
+    // Only seems possible to pass props to react router chosen child using this technique.
+    // Note all get the prop even if don't want it.
+    const childWithTalkSchedule = React.Children.map(
+      this.props.children,
+      child => React.cloneElement(child,
+        {
+          talkSchedule: this.state.talkSchedule
+        })
+    )
     return (
       <div className="App">
         <div className="App-header">
@@ -22,7 +56,6 @@ class App extends Component {
           </a>
           <h4>TMPC Workshop 2017</h4>                    
           <Navbar inverse collapseOnSelect style={{marginBottom: '0', border: '0'}}>
-
             <Navbar.Header>
               <Navbar.Brand>
                 <span style={{color: 'lightblue', padding: '10px 15px'}}>Voting Demonstrator</span>
@@ -46,8 +79,7 @@ class App extends Component {
         </div>
         
         <main className="App-main">
-
-          {this.props.children}          
+          {childWithTalkSchedule}
         </main>
       </div>
     )
@@ -61,6 +93,7 @@ const AppRouter = (props) => {
         <IndexRoute component={ResultsContainer} />
         <Route path="about" component={About} />
         <Route path="vote" component={VoteWithSetup} />
+        <Route path="results" component={ResultsContainer} />
       </Route>
     </Router>    
   )

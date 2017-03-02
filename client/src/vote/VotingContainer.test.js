@@ -1,10 +1,8 @@
 import React from 'react'
-import { mount, shallow } from 'enzyme'
-import { List, is } from 'immutable'
+import { shallow } from 'enzyme'
+import { List } from 'immutable'
 
 import VotingContainer from './VotingContainer'
-import { talks } from '../test_support/exampleTalks'
-import WorkshopSchedule from './schedule/WorkshopSchedule'
 
 // Mock out rest call
 jest.mock('../voters_lib/VotingApi')
@@ -15,35 +13,13 @@ afterEach(() => {
 })
 
 describe('Checking state changes on voting container', () => {
-  it('Store the list of talks in state when component mounts', (done) => {
-    getTalks.mockImplementation(() => Promise.resolve(talks))
-
-    window.innerWidth = 760
-    const wrapper = mount(<VotingContainer spdzProxyServerList={List()} 
-                                           spdzApiRoot={''}
-                                           clientPublicKey={''} />)
-
-    //To manage async componentDidMount use timeout
-    setTimeout(() => { 
-      try {
-        //Don't seem to be able to compare immutable structures
-        expect(wrapper.state().talkSchedule.size).toEqual(2)
-        const day1 = wrapper.state().talkSchedule.get(0)
-        expect(day1.get("displayDate")).toEqual("Monday 3rd Apr")        
-        expect(day1.get("talks").size).toEqual(3)
-        done()
-      } catch (err) {
-        done.fail(err)
-      }
-    }, 500)
-  })
-
   it('Set the list of selected talks in state with simulated vote clicks', () => {
     getTalks.mockImplementation(() => Promise.resolve())
 
     const wrapper = shallow(<VotingContainer spdzProxyServerList={List()} 
                                              spdzApiRoot={''}
-                                             clientPublicKey={''} />)
+                                             clientPublicKey={''}
+                                             talkSchedule={List()} />)
 
     wrapper.instance().votingClick(1, true)
     expect(wrapper.state().selectedTalkIds).toEqual(List([1]))

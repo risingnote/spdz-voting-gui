@@ -2,8 +2,8 @@ import React, { PropTypes } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import { List } from 'immutable'
 
-import DisplayPanel from '../common/DisplayPanel'
-import '../schedule/DisplayTalk.css'
+import DisplayPanel from '../../common/DisplayPanel'
+import '../../common/DisplayTalk.css'
 
 const VoteChoice = (props) => {
 

@@ -141,7 +141,11 @@ const talkScheduleConverter = (jsonData) => {
 }
 
 /**
- * Given a list of voter ids get the speaker and title from talkSchedule
+ * Given a list of talk ids get the speaker and title from talkSchedule.
+ * 
+ * @param {List<String>} talkIds selected talk ids 
+ * @param {List<Map>} talkSchedule the talk schedule to search. See talkScheduleConverter.
+ * @returns {List<Map>} List of talks with id, speaker and title. 
  */
 const extractVotedTalks = (talkIds, talkSchedule) => {
   const votedTalks = talkIds.map( (talkId, index) => {
@@ -155,7 +159,8 @@ const extractVotedTalks = (talkIds, talkSchedule) => {
       }
     }
     if (matchedTalk !== undefined) {
-      return Map({id: matchedTalk.get('id'), speaker: matchedTalk.get('speaker'), title: matchedTalk.get('title')})
+      return Map({id: matchedTalk.get('id'), speaker: matchedTalk.get('speaker'), 
+                  title: matchedTalk.get('title')})
     }
     else {
       return undefined
@@ -164,4 +169,21 @@ const extractVotedTalks = (talkIds, talkSchedule) => {
   return votedTalks.filter(talk => talk !== undefined)
 }
 
-export { talkScheduleConverter, extractVotedTalks }
+/**
+ * Given a list of winning talk ids and votes, enrich the list with speaker and 
+ * title from talkSchedule.
+ * 
+ * @param {Array<{talkId:Number, count:Number}>} vote results
+ * @param {List<Map>} talkSchedule the talk schedule to search. See talkScheduleConverter.
+ * @returns {List<Map>} array of talks with id, speaker, title, count. 
+ */
+const resultsEnriched = (results, talkSchedule) => {
+  const resultIds = List(results.map( (talk => talk.talkId )))
+  const enrichedIds = extractVotedTalks(resultIds, talkSchedule)
+
+  return enrichedIds.map( (talk, index) => {
+    return talk.set('count', results[index].count)
+  })
+}
+
+export { talkScheduleConverter, extractVotedTalks, resultsEnriched }
