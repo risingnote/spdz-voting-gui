@@ -12,7 +12,10 @@ let results = []
 // Manages all connected sockets
 let ns = undefined
 
-// Remove socket id before sending to clients.
+/**
+ * Send out results to all connected cients.
+ * @param {Array<Object>} newResults 
+ */
 const updateResults = (newResults) => {
   results = newResults
   if (ns === undefined) {
@@ -22,6 +25,10 @@ const updateResults = (newResults) => {
   }
 }
 
+/**
+ * Configure and start Socket io server.
+ * @param {HttpServer} httpServer 
+ */
 const init = (httpServer) => {
     const io = new Io(httpServer)
     ns = io.of('/voteresults')
