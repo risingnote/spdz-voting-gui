@@ -25,14 +25,14 @@
 }
 
 .DisplayTalk-row .DisplayTalk-result {
+  font-weight: bolder;
   margin: 5px;
   text-align: center;
-  width: 30px;
-  height: 30px;
-  padding: 3px 0px;
+  width: 32px;
+  height: 32px;
+  padding: 4px 0px 3px 0px;
   border-radius: 50%;
   border: 1px solid #999;
-  background-color: goldenrod;
 }
 
 .DisplayTalk-row .DisplayTalk-result-missing {

@@ -8,11 +8,14 @@ import '../common/DisplayTalk.css'
 const Results = (props) => {
 
   const displayResults = [0,1,2].map( (index) => {
+    const medalColor = {
+      backgroundColor: ['goldenrod', 'silver', 'tan'][index]
+    }
     const result = props.votes.get(index)
     if (result !== undefined) {      
       return <Row className="DisplayTalk-row" style={{margin: '0px'}} key={result.get('id')}>
                <Col xs={2} md={2} className="DisplayTalk-col">
-                 <div className="DisplayTalk-result">{result.get('count')}</div>
+                 <div className="DisplayTalk-result" style={medalColor}>{result.get('count')}</div>
               </Col>
               <Col xs={10} md={10}>
                 <Row>
@@ -25,7 +28,7 @@ const Results = (props) => {
     else {
       return <Row className="DisplayTalk-row" style={{margin: '0px'}} key={`notChosen$${index}`}>
                <Col xs={2} md={2} className="DisplayTalk-col">
-                 <div className="DisplayTalk-result"></div>
+                 <div className="DisplayTalk-result" style={medalColor}></div>
               </Col>
               
                <Col xsOffset={0} xs={10} mdOffset={3} md={7} className="DisplayTalk-result-missing">

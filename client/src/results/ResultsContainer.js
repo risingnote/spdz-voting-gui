@@ -14,7 +14,7 @@ class ResultsContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      results: [{talkId: 101, count: 123}, {talkId: 104, count: 33}]
+      results: []
     }
     this.socket = undefined
   }
@@ -25,12 +25,12 @@ class ResultsContainer extends Component {
   componentDidMount() {
     this.socket = Io('/voteresults')
 
-    // Expect list of {talkId:String, count:Number} when sent results message.
+    // Expect array of {talkId:String, count:Number} when sent results message.
     this.socket.on('results', (msg) => {
+      // Ensure in high -> low order
+      msg.sort((a,b) => b.count - a.count)
       this.setState({results: msg})
     });
-
-    this.socket.on('disconnect', () => console.log('Got a server side disconnect from results server.'))
   }
 
   componentWillUnmount() {
