@@ -1,23 +1,24 @@
 import { List, Map } from 'immutable'
 import { talkScheduleConverter, extractVotedTalks, resultsEnriched } from './TalkSchedule'
+import fecha from 'fecha'
 
 const myjson = 
 [
     {
-      "dateTime": "2017-04-01 09:00 +0000",
+      "dateTime": "2017-04-01 09:00 +0100",
       "id": "1", 
       "speaker": "Alice", 
       "title": "Not a talk"
     },
     {
-      "dateTime": "2017-04-02 09:00 +0000",
+      "dateTime": "2017-04-02 09:00 +0100",
       "id": "3", 
       "speaker": "Start time", 
       "title": "",
       "infoOnly": "true"
     },
     {
-      "dateTime": "2017-04-01 10:00 +0000",
+      "dateTime": "2017-04-01 10:00 +0100",
       "id": "2", 
       "speaker": "Bob", 
       "title": "Not another talk"
@@ -29,14 +30,14 @@ const reformatted = List([
     "displayDate": "Saturday 1st Apr",
     "talks": List([
       Map({
-        "displayTime": "10:00",
+        "displayTime": "09:00",
         "id": "1",
         "speaker": "Alice",
         "title": "Not a talk",        
         "infoOnly": false
       }),
       Map({
-        "displayTime": "11:00",
+        "displayTime": "10:00",
         "id": "2",
         "speaker": "Bob",
         "title": "Not another talk",
@@ -48,7 +49,7 @@ const reformatted = List([
     "displayDate": "Sunday 2nd Apr",
     "talks": List([
       Map({
-        "displayTime": "10:00",
+        "displayTime": "09:00",
         "id": "3",
         "speaker": "Start time",
         "title": "",        
@@ -113,7 +114,7 @@ describe('Parse the schedule of talks into a usable data structure for the GUI',
     }
     catch(error) {
       expect(error.message).toEqual(
-        'Given a date 2017-04-01 +0000 which is not in the expected format of YYYY-MM-DD HH:mm Z.')
+        'Given a date 2017-04-01 +0000 which is not in the expected format of YYYY-MM-DD HH:mm ZZ.')
     }
   })
 })

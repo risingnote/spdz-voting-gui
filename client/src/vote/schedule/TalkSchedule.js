@@ -4,7 +4,7 @@
  */
 
 import { List, Map } from 'immutable'
-import Moment from 'moment'
+import fecha from 'fecha'
 
 import TalkScheduleError from './TalkScheduleError'
 
@@ -22,15 +22,19 @@ const isArray = (objToTest) => {
  *  displayTime 
  */
 const extractDateTime = (dateTimeStr) => {
+
   let dateObj = {}
-  const dateTimeStrFormat = 'YYYY-MM-DD HH:mm Z'
-  const dateTime = Moment(dateTimeStr, dateTimeStrFormat, true);
-  if (!dateTime.isValid()) {
+  const dateTimeStrFormat = "YYYY-MM-DD HH:mm ZZ"
+
+  const dateTime = fecha.parse(dateTimeStr, dateTimeStrFormat)
+
+  if (!dateTime) {
     throw new TalkScheduleError(`Given a date ${dateTimeStr} which is not in the expected format of ${dateTimeStrFormat}.`)
   }
+
   dateObj['dateTime'] = dateTime
-  dateObj['displayDate'] = dateTime.format('dddd Do MMM')
-  dateObj['displayTime'] = dateTime.format('HH:mm')
+  dateObj['displayDate'] = fecha.format(dateTime, "dddd Do MMM")
+  dateObj['displayTime'] = fecha.format(dateTime, 'HH:mm')
 
   return dateObj
 }
@@ -72,10 +76,10 @@ const extractProperties = (talk) => {
  */
 const reformatStructure = (talkScheduleData) => {
   talkScheduleData.sort( (a,b) => {
-    if (a.dateTime.isBefore(b.dateTime)) {
+    if (a.dateTime < b.dateTime) {
       return -1
     }
-    if (a.dateTime.isAfter(b.dateTime)) {
+    if (a.dateTime > b.dateTime) {
       return 1
     }
     return 0;
