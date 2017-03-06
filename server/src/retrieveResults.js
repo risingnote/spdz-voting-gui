@@ -13,8 +13,8 @@ const startResultsTimer = (pollingIntervalMs, callback) => {
    callback(tempResults)
 
   }, pollingIntervalMs)
+  
+  console.log(`Started timer to poll for voting results every ${pollingIntervalMs} ms.`)
 }
 
-module.exports = {
-  startResultsTimer: startResultsTimer
-}
+module.exports = startResultsTimer

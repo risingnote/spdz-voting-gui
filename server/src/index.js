@@ -1,53 +1,69 @@
 /**
- * Run a web server to serve the SPDZ gui and a REST endpoint to get gui config at run time.
+ * Entry point for SPDZ voting demo server.
+ * Run a web server to:
+ *  - serve the SPDZ GUI
+ *  - serve REST endpoints for GUI config at run time.
+ * Run a websocket server to:
+ *  - push changes in voting results to clients
+ * Communicate with SPDZ parties to:
+ *  - setup fixed data (talk ids, voter ids)
+ *  - poll for voting results.
  */
 'use strict'
 
 const express = require('express')
 const http = require('http')
 const compression = require('compression')
+const spdzGuiLib = require('spdz-gui-lib')
+// Polyfill for fetch, pulls in node-fetch to global scope
+require('isomorphic-fetch')
 
 const guiConfig = require('../config/spdzGui.json')
 const proxyConfig = require('../config/spdzProxy.json')
 const workshopSchedule = require('../config/workshopSchedule.json')
+
+const webRouting = require('./webRouting')
+const initSPDZEngines = require('./initSPDZEngines')
 const resultsServer = require('./resultsServer')
-const retrieveResults = require('./retrieveResults')
+const pollForResults = require('./retrieveResults')
+const configForEnv = require('./configForEnv')
 
 const guiPortNum = guiConfig.portNum || '8080'
-const environ = process.env.NODE_ENV || 'development'
+
+const setupDHKeys = () => {
+  const dhKeyPair = configForEnv('dhKeyPair')  
+  spdzGuiLib.setDHKeyPair(dhKeyPair.clientPublicKey, dhKeyPair.clientPrivateKey)
+  return dhKeyPair.clientPublicKey
+}
 
 const app = express()
 
-app.get('/spdzProxyConfig', (req, res) => {
-  res.json(proxyConfig)
+// Configure web server paths
+webRouting(app)
+
+// Setup key material
+const dhPublicKey = setupDHKeys()
+const spdzProxyList = proxyConfig.spdzProxyList.map( (spdzProxy) => {
+  return { url: spdzProxy.url, encryptionKey: spdzGuiLib.createEncryptionKey(spdzProxy.publicKey) }
 })
 
-app.get('/api/talks', (req, res) => {
-  res.json(workshopSchedule)
-})
+// Setup connection to SPDZ engines and initialise
+initSPDZEngines(spdzProxyList, proxyConfig.spdzApiRoot, dhPublicKey)
+  .then(() => {
+    const httpServer = http.createServer(app)
 
-// Serve GUI from bundled production build files if not in development.
-// Note catch all to support html 5 history API
-if (environ !== 'development') {
-  app.use(compression())  
-  app.use(express.static(__dirname + '/../../client/build'))
-  app.get('/*', function (req, res) {
-    res.sendFile(path.join(__dirname, '/../../client/build', 'index.html'))
-  }); 
-}
+    // Setup results server web socket to push changes in voting results 
+    // to connected clients.
+    resultsServer.init(httpServer)
 
-app.disable('x-powered-by')
+    pollForResults(5000, (results) => {
+      resultsServer.updateResults(results)
+    })
 
-// TODO Allow optional switch to https
-const httpServer = http.createServer(app)
-
-// Setup results server web socket
-resultsServer.init(httpServer)
-
-retrieveResults.startResultsTimer(5000, (results) => {
-  resultsServer.updateResults(results)
-})
-
-httpServer.listen(guiPortNum, () => {
-  console.log('Serving gui on port ' + guiPortNum + '.')
-})
+    httpServer.listen(guiPortNum, () => {
+      console.log('Serving gui on port ' + guiPortNum + '.')
+    })
+  })
+  .catch((err) => {
+    console.log("Unable to initialise SPDZ engines, exiting.", err)
+  })
