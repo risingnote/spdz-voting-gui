@@ -15,7 +15,8 @@ const express = require('express')
 const http = require('http')
 const compression = require('compression')
 const spdzGuiLib = require('spdz-gui-lib')
-// Polyfill for fetch, pulls in node-fetch to global scope
+// Polyfill for fetch, required when interacting with SPDZ Api functions in spdz-gui-lib.
+// Pulls in node-fetch to global scope
 require('isomorphic-fetch')
 
 const guiConfig = require('../config/spdzGui.json')
