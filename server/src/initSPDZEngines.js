@@ -40,10 +40,12 @@ const initSPDZ = (spdzProxyList, spdzApiRoot, dhPublicKey) => {
       }
     })
     .then(() => {
-      return sendInputsWithShares(voterIds, true, spdzProxyList, spdzApiRoot, dhPublicKey, 500)
+      console.log("Sending voter ids to SPDZ Engines.")
+      return spdzGuiLib.sendInputsWithShares(voterIds, true, spdzProxyList, spdzApiRoot, dhPublicKey, 1000)
     })
     .then(() => {
-      return sendInputsWithShares(talkIds, true, spdzProxyList, spdzApiRoot, dhPublicKey, 500)      
+      console.log("Sending talk ids to SPDZ Engines.")      
+      return spdzGuiLib.sendInputsWithShares(talkIds, true, spdzProxyList, spdzApiRoot, dhPublicKey, 1000)      
     })
 }
 
