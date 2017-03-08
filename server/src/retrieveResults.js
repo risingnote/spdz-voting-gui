@@ -2,6 +2,7 @@
  * A timer to periodically retrieve results from SPDZ.
  */
 const spdzGuiLib = require('spdz-gui-lib')
+const logger = require('./logging')
 
 const retrieveResults = (spdzProxyList, spdzApiRoot, clientId) => {
   return spdzGuiLib.consumeDataFromProxies(spdzProxyList.map(spdzProxy => spdzProxy.url), spdzApiRoot, clientId)
@@ -35,15 +36,15 @@ const startResultsTimer = (spdzProxyList, spdzApiroot, clientId, pollingInterval
     .catch( err => {
       if (err instanceof spdzGuiLib.NoContentError) {
         // Keep going, no new results
-        console.log('No new results available.')        
+        logger.debug('No new results available.')        
       }
       else {
-        console.log('Problem when polling for result.', err)
+        logger.error('Problem when polling for result.', err)
       }
     })
   }, pollingIntervalMs)
   
-  console.log(`Started timer to poll for voting results every ${pollingIntervalMs} ms.`)
+  logger.info(`Started timer to poll for voting results every ${pollingIntervalMs} ms.`)
 }
 
 module.exports = startResultsTimer

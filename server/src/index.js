@@ -20,12 +20,12 @@ require('isomorphic-fetch')
 
 const guiConfig = require('../config/spdzGui.json')
 const proxyConfig = require('../config/spdzProxy.json')
-const workshopSchedule = require('../config/workshopSchedule.json')
+const configForEnv = require('./configForEnv')
 
 const webRouting = require('./webRouting')
 const initSPDZEngines = require('./initSPDZEngines')
 const resultsServer = require('./resultsServer')
-const configForEnv = require('./configForEnv')
+const logger = require('./logging')
 
 const guiPortNum = guiConfig.portNum || '8080'
 
@@ -56,9 +56,9 @@ initSPDZEngines(spdzProxyList, proxyConfig.spdzApiRoot, dhPublicKey)
     resultsServer(spdzProxyList, proxyConfig.spdzApiRoot, dhPublicKey, httpServer)
 
     httpServer.listen(guiPortNum, () => {
-      console.log('Serving gui on port ' + guiPortNum + '.')
+      logger.info(`Serving gui on port ${guiPortNum}.`)
     })
   })
   .catch((err) => {
-    console.log("Unable to initialise SPDZ engines, exiting.", err)
+    logger.warn("Unable to initialise SPDZ engines, exiting.", err)
   })

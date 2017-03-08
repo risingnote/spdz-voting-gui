@@ -3,7 +3,7 @@
  * Currently clients are stateless so a page refresh will be a disconnect and join.
  */
 const pollForResults = require('./retrieveResults')
-
+const logger = require('./logging')
 const Io = require('socket.io')
 
 // Hold current results as Array of {talkId:String, count:Number}
@@ -19,7 +19,7 @@ let ns = undefined
 const resultsServer = (spdzProxyList, spdzApiRoot, dhPublicKey, httpServer) => {
     const io = new Io(httpServer)
     ns = io.of('/voteresults')
-    console.log('Listening for results web socket connections at /voteresults.')
+    logger.info('Listening for results web socket connections at /voteresults.')
 
     ns.on('connection', (socket) => {
       socket.emit('results', results)
@@ -32,7 +32,7 @@ const resultsServer = (spdzProxyList, spdzApiRoot, dhPublicKey, httpServer) => {
     pollForResults(spdzProxyList, spdzApiRoot, dhPublicKey, 10000, (resultsJson) => {
       results = resultsJson
       if (ns === undefined) {
-        console.log("Trying to update vote results before results server has been initialised.")
+        logger.warn("Trying to update vote results before results server has been initialised.")
       } else {
         ns.emit('results', results)
       }

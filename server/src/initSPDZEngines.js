@@ -6,6 +6,7 @@
  */
 const spdzGuiLib = require('spdz-gui-lib')
 const configForEnv = require('./configForEnv')
+const logger = require('./logging')
 
 // Get fixed values to send at startup
 let voterIds = configForEnv('voterIds')
@@ -40,11 +41,11 @@ const initSPDZ = (spdzProxyList, spdzApiRoot, dhPublicKey) => {
       }
     })
     .then(() => {
-      console.log("Sending voter ids to SPDZ Engines.")
+      logger.info("Sending voter ids to SPDZ Engines.")
       return spdzGuiLib.sendInputsWithShares(voterIds, true, spdzProxyList, spdzApiRoot, dhPublicKey, 1000)
     })
     .then(() => {
-      console.log("Sending talk ids to SPDZ Engines.")      
+      logger.info("Sending talk ids to SPDZ Engines.")      
       return spdzGuiLib.sendInputsWithShares(talkIds, true, spdzProxyList, spdzApiRoot, dhPublicKey, 1000)      
     })
 }
