@@ -9,7 +9,6 @@
  *  - setup fixed data (talk ids, voter ids)
  *  - poll for voting results.
  */
-'use strict'
 
 const express = require('express')
 const http = require('http')
@@ -26,7 +25,6 @@ const workshopSchedule = require('../config/workshopSchedule.json')
 const webRouting = require('./webRouting')
 const initSPDZEngines = require('./initSPDZEngines')
 const resultsServer = require('./resultsServer')
-const pollForResults = require('./retrieveResults')
 const configForEnv = require('./configForEnv')
 
 const guiPortNum = guiConfig.portNum || '8080'
@@ -55,11 +53,7 @@ initSPDZEngines(spdzProxyList, proxyConfig.spdzApiRoot, dhPublicKey)
 
     // Setup results server web socket to push changes in voting results 
     // to connected clients.
-    resultsServer.init(httpServer)
-
-    pollForResults(5000, (results) => {
-      resultsServer.updateResults(results)
-    })
+    resultsServer(spdzProxyList, proxyConfig.spdzApiRoot, dhPublicKey, httpServer)
 
     httpServer.listen(guiPortNum, () => {
       console.log('Serving gui on port ' + guiPortNum + '.')

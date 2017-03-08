@@ -9,10 +9,10 @@ const configForEnv = require('./configForEnv')
 
 // Get fixed values to send at startup
 let voterIds = configForEnv('voterIds')
-if (voterIds.length > 200) {
-  throw new Error(`Up to 200 voter ids supported, got ${voterIds.length}.`)
-} else if (voterIds.length < 200) {
-  voterIds = voterIds.concat((new Array(200 - voterIds.length)).fill(0))
+if (voterIds.length > 150) {
+  throw new Error(`Up to 150 voter ids supported, got ${voterIds.length}.`)
+} else if (voterIds.length < 150) {
+  voterIds = voterIds.concat((new Array(150 - voterIds.length)).fill(0))
 }
 
 const workshopSchedule = require('../config/workshopSchedule')
