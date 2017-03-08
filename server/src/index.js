@@ -29,6 +29,10 @@ const logger = require('./logging')
 
 const guiPortNum = guiConfig.portNum || '8080'
 
+/**
+ * Load pre-generated DH Key pair.
+ * @returns String public key which must match value in SPDZ MPC program
+ */
 const setupDHKeys = () => {
   const dhKeyPair = configForEnv('dhKeyPair')  
   spdzGuiLib.setDHKeyPair(dhKeyPair.clientPublicKey, dhKeyPair.clientPrivateKey)
@@ -40,8 +44,8 @@ const app = express()
 // Configure web server paths
 webRouting(app)
 
-// Setup key material
 const dhPublicKey = setupDHKeys()
+// Setup session encryption keys.
 const spdzProxyList = proxyConfig.spdzProxyList.map( (spdzProxy) => {
   return { url: spdzProxy.url, encryptionKey: spdzGuiLib.createEncryptionKey(spdzProxy.publicKey) }
 })

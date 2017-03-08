@@ -30,6 +30,7 @@ const resultsServer = (spdzProxyList, spdzApiRoot, dhPublicKey, httpServer) => {
     });
 
     pollForResults(spdzProxyList, spdzApiRoot, dhPublicKey, 10000, (resultsJson) => {
+      logger.debug('Got new vote results. ', resultsJson)
       results = resultsJson
       if (ns === undefined) {
         logger.warn("Trying to update vote results before results server has been initialised.")
