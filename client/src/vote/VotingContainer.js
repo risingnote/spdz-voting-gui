@@ -25,7 +25,7 @@ class VotingContainer extends Component {
   }
 
   /**
-   * Update the voting list, add to end and keep list >= 3 talks
+   * Update the voting list, add to end and keep list <= 3 talks
    * @params {talkId} String identifier for talk
    * @params {selected} boolean, true meaning adding, false meaning removing
    */
@@ -49,7 +49,7 @@ class VotingContainer extends Component {
     const voteChoice = <VoteChoice talks={extractVotedTalks(this.state.selectedTalkIds, this.props.talkSchedule)} />                                               
 
     const voteFormContainer = <VoteFormContainer selectedTalkIds={this.state.selectedTalkIds} 
-                                                 spdzProxyServerList={this.props.spdzProxyServerList}                 
+                                                 spdzProxyServerList={this.props.spdzProxyServerList.toArray().map( immutableMap => immutableMap.toObject())}
                                                  spdzApiRoot={this.props.spdzApiRoot}
                                                  clientPublicKey={this.props.clientPublicKey}
                                                  proxyStatusChange={(newStatus) => this.setState({spdzProxyStatus: newStatus })}/>

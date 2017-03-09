@@ -1,12 +1,15 @@
 /**
  * Manage express routing for web server.
  */
+const clientProxyConfig = require('../config/spdzProxy')
+const workshopSchedule = require('../config/workshopSchedule')
+
 const environ = process.env.NODE_ENV || 'development'
 
 module.exports = (app) => {
   // REST endpoints come first
   app.get('/spdzProxyConfig', (req, res) => {
-    res.json(proxyConfig)
+    res.json(clientProxyConfig)
   })
 
   app.get('/api/talks', (req, res) => {

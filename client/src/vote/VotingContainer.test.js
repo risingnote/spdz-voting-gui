@@ -1,6 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { List } from 'immutable'
+import { List, Map } from 'immutable'
 
 import VotingContainer from './VotingContainer'
 
@@ -42,4 +42,36 @@ describe('Checking state changes on voting container', () => {
     wrapper.instance().votingClick(99, false)    
     expect(wrapper.state().selectedTalkIds).toEqual(List())                                           
   })  
+
+  it('Check how conversion of immutable types works, not a unit test!', () => {
+    const twoProxiesSpdzConfig = List.of(
+      Map({
+        url: "http://spdzProxy.one:4000",
+        publicKey: "0102030405060708010203040506070801020304050607080102030405060708", 
+        encryptionKey: "AA02030405060708010203040506070801020304050607080102030405060708"
+      }),
+      Map({
+        url: "http://spdzProxy.two:4000",
+        publicKey: "3302030405060708010203040506070801020304050607080102030405060708",         
+        encryptionKey: "BB02030405060708010203040506070801020304050607080102030405060708"
+      })
+    )
+
+    const expected = [
+      {
+        url: "http://spdzProxy.one:4000",
+        publicKey: "0102030405060708010203040506070801020304050607080102030405060708", 
+        encryptionKey: "AA02030405060708010203040506070801020304050607080102030405060708"
+      },
+      {
+        url: "http://spdzProxy.two:4000",
+        publicKey: "3302030405060708010203040506070801020304050607080102030405060708",         
+        encryptionKey: "BB02030405060708010203040506070801020304050607080102030405060708"
+      }
+    ]
+
+    const result = twoProxiesSpdzConfig.toArray().map( immutableMap => immutableMap.toObject())
+
+    expect(result).toEqual(expected)
+  })
 })
