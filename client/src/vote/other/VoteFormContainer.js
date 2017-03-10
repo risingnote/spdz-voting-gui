@@ -82,7 +82,7 @@ class VoteFormContainer extends Component {
         return this.readForResult()
       })
       .then( (result) => {
-        if (result !== 0) {
+        if (result !== 1) {
           return Promise.reject(new Error(`Vote failed with return code ${result}.`))
         } else {
           return Promise.resolve()
@@ -98,7 +98,7 @@ class VoteFormContainer extends Component {
       })
       .catch((ex) => {
         console.log(ex)
-        this.setState({statusMessage: 'Problem submitting vote. Please try again. ' + ex.message})
+        this.setState({statusMessage: 'Problem submitting vote. Please try again. '})
         disconnectFromProxies(this.props.spdzProxyServerList.map( spdzProxy => spdzProxy.url), 
                                this.props.spdzApiRoot, this.props.clientPublicKey)
       })
