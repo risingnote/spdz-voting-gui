@@ -19,7 +19,7 @@ const spdzGuiLib = require('spdz-gui-lib')
 require('isomorphic-fetch')
 
 const guiConfig = require('../config/spdzGui.json')
-const mgmtProxyConfig = require('../config/spdzProxyMgmt.json')
+const proxyConfig = require('../config/spdzProxy.json')
 const configForEnv = require('./configForEnv')
 
 const webRouting = require('./webRouting')
@@ -46,18 +46,18 @@ webRouting(app)
 
 const dhPublicKey = setupDHKeys()
 // Setup session encryption keys.
-const spdzProxyList = mgmtProxyConfig.spdzProxyList.map( (spdzProxy) => {
+const spdzProxyList = proxyConfig.spdzProxyList.map( (spdzProxy) => {
   return { url: spdzProxy.url, encryptionKey: spdzGuiLib.createEncryptionKey(spdzProxy.publicKey) }
 })
 
 // Setup connection to SPDZ engines and initialise
-initSPDZEngines(spdzProxyList, mgmtProxyConfig.spdzApiRoot, dhPublicKey)
+initSPDZEngines(spdzProxyList, proxyConfig.spdzApiRoot, dhPublicKey)
   .then(() => {
     const httpServer = http.createServer(app)
 
     // Setup results server web socket to push changes in voting results 
     // to connected clients.
-    resultsServer(spdzProxyList, mgmtProxyConfig.spdzApiRoot, dhPublicKey, httpServer)
+    resultsServer(spdzProxyList, proxyConfig.spdzApiRoot, dhPublicKey, httpServer)
 
     httpServer.listen(guiPortNum, () => {
       logger.info(`Serving gui on port ${guiPortNum}.`)
