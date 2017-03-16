@@ -37,7 +37,7 @@
     "react-router-bootstrap": "^0.23.1",
     "socket.io-client": "^1.7.3",
     "spdz-gui-components": "git+ssh://git@github.com/bristolcrypto/spdz-gui-components.git#v0.1.2",
-    "spdz-gui-lib": "file:///Users/je0018/Development/spdz-gui-lib"
+    "spdz-gui-lib": "git+ssh://git@github.com/bristolcrypto/spdz-gui-lib.git#v0.1.2"
   },
   "scripts": {
     "start": "react-scripts start",

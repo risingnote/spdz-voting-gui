@@ -1,6 +1,9 @@
 /**
  * Manage express routing for web server.
  */
+const compression = require('compression')
+const express = require('express')
+const path = require('path')
 const clientProxyConfig = require('../config/spdzProxy')
 const workshopSchedule = require('../config/workshopSchedule')
 
