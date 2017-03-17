@@ -19,7 +19,7 @@ const VoteChoice = (props) => {
     else {
       return <Row className="DisplayTalk-row" style={{margin: '0px'}} key={`notChosen$${talkPosn}`}>
                <Col xs={2} md={2} className="DisplayTalk-col">{talkPosn+1}</Col>
-               <Col xs={10} md={10} className="DisplayTalk-missing">select a talk from the list</Col>
+               <Col xs={10} md={10} className="DisplayTalk-missing">choose a talk from the list</Col>
             </Row>
     }
   })

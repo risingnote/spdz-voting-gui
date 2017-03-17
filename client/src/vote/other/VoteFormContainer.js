@@ -68,6 +68,7 @@ class VoteFormContainer extends Component {
       .then( (values) => {
         this.props.proxyStatusChange(values)
         if (allProxiesConnected(values)) {
+          this.setState({statusMessage: 'Processing your vote....'})      
           return Promise.resolve()
         }
         else {
@@ -94,7 +95,7 @@ class VoteFormContainer extends Component {
       })
       .then( (values) => {
         this.props.proxyStatusChange(values)
-        this.setState({statusMessage: 'Your vote has been submitted.'})        
+        this.setState({statusMessage: 'Your vote has been included.'})        
       })
       .catch((ex) => {
         console.log(ex)

@@ -32,7 +32,7 @@ class VoteForm extends Component {
                             <Button type="submit" disabled>Vote</Button>
     const defaultStatusMessage = (this.props.statusMessage === undefined || this.props.statusMessage.length === 0)
     const statusMessage = defaultStatusMessage ?
-            'Select at least one talk and enter your voter id, to vote.' : this.props.statusMessage
+            'Choose at least one talk and enter your voter id, to vote.' : this.props.statusMessage
     const statusMessageDisplay = defaultStatusMessage ?
           {color: '#999'} :
           {color: 'green'}
