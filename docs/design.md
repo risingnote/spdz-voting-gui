@@ -104,9 +104,9 @@ While true
 
 ### Questions / Issues:
 
-1. What is the best way to validate a share of the user input (voter id and talk id) without revealing the inputs? What should the program be validating against ?
-2. Because the SPDZ program processing runs in a single thread, clients will potentially be blocked between making the SPDZ connections (which do run in separate thread) and reading the shares from SPDZ. This potential delay will need a 'sensible' timeout, before the voting attempt is flagged as failed. It will be possible for the vote to be re-tried.
-3. As this needs to be a long running process (at least for the 1 week duration of the workshop) their needs to be some persistence mechanism for votes cast. The idea proposed above is to record a transaction log where each vote cast can be added to the end of a file. As these are shares, privacy is maintained. On a restart these transactions can be replayed to build up the voter-history data structure. Is there a better way of achieving this?
+1. Because the SPDZ program processing runs in a single thread, clients will potentially be blocked between making the SPDZ connections (which do run in separate thread) and reading the shares from SPDZ. This potential delay will need a 'sensible' timeout, before the voting attempt is flagged as failed. It will be possible for the vote to be re-tried.
+2. As this needs to be a long running process (at least for the 1 week duration of the workshop) their needs to be some persistence mechanism for votes cast. The idea proposed above is to record a transaction log where each vote cast can be added to the end of a file. As these are shares, privacy is maintained. On a restart these transactions can be replayed to build up the voter-history data structure. Is there a better way of achieving this?
+3. Result is supplied to the application server as a revealed result. As such it is not verified. To be properly implemented need to return response directly to clients (not via app server) but this really needs a proper messaging api rather than the implied sockets interface. Once in place SPDZ will need to return a triple containing [x], [r], [x.r] where r could be the first of a beaver triple)]. The client can retrieve the result with sum([x]) and verify with sum([x]) * sum([r]) = sum([x.r]) . 
 
 ### Other Notes
 

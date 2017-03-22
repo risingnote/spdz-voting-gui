@@ -18,7 +18,8 @@ const spdzGuiLib = require('spdz-gui-lib')
 // Pulls in node-fetch to global scope
 require('isomorphic-fetch')
 
-const guiConfig = require('../config/spdzGui.json')
+// Deploytime config
+const certs = require('../certs/config.json')
 const proxyConfig = require('../config/spdzProxy.json')
 const configForEnv = require('./configForEnv')
 
@@ -27,7 +28,7 @@ const initSPDZEngines = require('./initSPDZEngines')
 const resultsServer = require('./resultsServer')
 const logger = require('./logging')
 
-const guiPortNum = guiConfig.portNum || '8080'
+const environ = process.env.NODE_ENV || 'development'
 
 /**
  * Load pre-generated DH Key pair.
@@ -44,23 +45,36 @@ const app = express()
 // Configure web server paths
 webRouting(app)
 
-const dhPublicKey = setupDHKeys()
 // Setup session encryption keys.
+const dhPublicKey = setupDHKeys()
 const spdzProxyList = proxyConfig.spdzProxyList.map( (spdzProxy) => {
   return { url: spdzProxy.url, encryptionKey: spdzGuiLib.createEncryptionKey(spdzProxy.publicKey) }
 })
 
+let webServer
+let guiPortNum
+
+if ( certs.https && certs.https === true ) {
+  const httpsOptions = {
+    key: fs.readFileSync(certs.keyFile),
+    cert: fs.readFileSync(certs.certFile)
+  }
+  webServer = https.createServer(httpsOptions, app)
+  guiPortNum = '8443'
+} else {
+  webServer = http.createServer(app)
+  guiPortNum = (environ === 'development') ? '3001' : '8080'
+}
+
 // Setup connection to SPDZ engines and initialise
 initSPDZEngines(spdzProxyList, proxyConfig.spdzApiRoot, dhPublicKey)
   .then(() => {
-    const httpServer = http.createServer(app)
-
     // Setup results server web socket to push changes in voting results 
     // to connected clients.
-    resultsServer(spdzProxyList, proxyConfig.spdzApiRoot, dhPublicKey, httpServer)
+    resultsServer(spdzProxyList, proxyConfig.spdzApiRoot, dhPublicKey, webServer)
 
-    httpServer.listen(guiPortNum, () => {
-      logger.info(`Serving gui on port ${guiPortNum}.`)
+    webServer.listen(guiPortNum, () => {
+      logger.info(`Serving GUI on port ${guiPortNum}.`)
     })
   })
   .catch((err) => {
