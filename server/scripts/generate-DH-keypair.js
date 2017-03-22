@@ -1,5 +1,6 @@
 /**
  * Use to generate offline the GUI server key pair, used to communicate with SPDZ proxies.
+ * Needs node installed. Better to use docker container spdz/spdz-keymaterial.
  * See config/dhKeyPair.json
  */
 

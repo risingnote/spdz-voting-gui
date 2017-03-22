@@ -24,7 +24,7 @@
     "isomorphic-fetch": "^2.2.1",
     "moment": "^2.17.1",
     "socket.io": "^1.7.3",
-    "spdz-gui-lib": "file:///Users/je0018/Development/spdz-gui-lib",
+    "spdz-gui-lib": "git+ssh://git@github.com/bristolcrypto/spdz-gui-lib.git#v0.1.2",
     "winston": "^2.3.1"
   },
   "devDependencies": {

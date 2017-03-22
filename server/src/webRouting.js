@@ -23,9 +23,9 @@ module.exports = (app) => {
   // Note catch all to support html 5 history API
   if (environ !== 'development') {
     app.use(compression())  
-    app.use(express.static(__dirname + '/../../client/build'))
+    app.use(express.static(__dirname + '/../gui_build'))
     app.get('/*', function (req, res) {
-      res.sendFile(path.join(__dirname, '/../../client/build', 'index.html'))
+      res.sendFile(path.join(__dirname, '/../gui_build', 'index.html'))
     }); 
   }
 

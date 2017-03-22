@@ -1,4 +1,5 @@
 #!/bin/bash
+# Use to run production mode outside of docker.
 
 HERE=$(cd `dirname $0`; pwd)
 CLONEROOT=$HERE/..
