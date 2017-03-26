@@ -12,6 +12,8 @@
 
 const express = require('express')
 const http = require('http')
+const https = require('https')
+const fs = require('fs')
 const compression = require('compression')
 const spdzGuiLib = require('spdz-gui-lib')
 // Polyfill for fetch, required when interacting with SPDZ Api functions in spdz-gui-lib.
@@ -20,7 +22,9 @@ require('isomorphic-fetch')
 
 // Deploytime config
 const certs = require('../certs/config.json')
-const proxyConfig = require('../config/spdzProxy.json')
+// Special version for this server, problem in deployment not able to get SSL connection 
+// via external network.
+const proxyConfigInternal = require('../config/spdzProxyInternal.json')
 const configForEnv = require('./configForEnv')
 
 const webRouting = require('./webRouting')
@@ -29,6 +33,8 @@ const resultsServer = require('./resultsServer')
 const logger = require('./logging')
 
 const environ = process.env.NODE_ENV || 'development'
+
+logger.debug(`Starting GUI server in ${environ}.`)
 
 /**
  * Load pre-generated DH Key pair.
@@ -47,7 +53,7 @@ webRouting(app)
 
 // Setup session encryption keys.
 const dhPublicKey = setupDHKeys()
-const spdzProxyList = proxyConfig.spdzProxyList.map( (spdzProxy) => {
+const spdzProxyList = proxyConfigInternal.spdzProxyList.map( (spdzProxy) => {
   return { url: spdzProxy.url, encryptionKey: spdzGuiLib.createEncryptionKey(spdzProxy.publicKey) }
 })
 
@@ -61,17 +67,17 @@ if ( certs.https && certs.https === true ) {
   }
   webServer = https.createServer(httpsOptions, app)
   guiPortNum = '8443'
-} else {
+  } else {
   webServer = http.createServer(app)
   guiPortNum = (environ === 'development') ? '3001' : '8080'
 }
 
 // Setup connection to SPDZ engines and initialise
-initSPDZEngines(spdzProxyList, proxyConfig.spdzApiRoot, dhPublicKey)
+initSPDZEngines(spdzProxyList, proxyConfigInternal.spdzApiRoot, dhPublicKey)
   .then(() => {
     // Setup results server web socket to push changes in voting results 
     // to connected clients.
-    resultsServer(spdzProxyList, proxyConfig.spdzApiRoot, dhPublicKey, webServer)
+    resultsServer(spdzProxyList, proxyConfigInternal.spdzApiRoot, dhPublicKey, webServer)
 
     webServer.listen(guiPortNum, () => {
       logger.info(`Serving GUI on port ${guiPortNum}.`)
