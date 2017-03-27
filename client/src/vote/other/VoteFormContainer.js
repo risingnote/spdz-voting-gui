@@ -17,18 +17,20 @@ class VoteFormContainer extends Component {
     this.readForResult = this.readForResult.bind(this)
   }
 
-  componentWillUnmount() {
-    disconnectFromProxies(this.props.spdzProxyServerList.map( spdzProxy => spdzProxy.url), 
-                          this.props.spdzApiRoot, this.props.clientPublicKey)
-  }
+  // This seems to cause management server socket to also close and leave spdz in bad state 
+  //  will not accept new connections.
+  // componentWillUnmount() {
+  //   disconnectFromProxies(this.props.spdzProxyServerList.map( spdzProxy => spdzProxy.url), 
+  //                         this.props.spdzApiRoot, this.props.clientPublicKey)
+  // }
 
   /**
-   * Read for a status result after voting.
+   * Read for a status result after voting, but don't know how long will take.
    * @returns {number} status will be 0 - success, 1 - invalid voterid, 2 - invalid talk id.
    */
   readForResult() {
     return consumeDataFromProxies(this.props.spdzProxyServerList.map(spdzProxy => spdzProxy.url),
-      this.props.spdzApiRoot, this.props.clientPublicKey, 500)
+      this.props.spdzApiRoot, this.props.clientPublicKey, 2000)
       .then((values) => {
         if (this.props.spdzProxyServerList.length !== values.length) {
           return Promise.reject(
@@ -101,7 +103,7 @@ class VoteFormContainer extends Component {
         console.log(ex)
         this.setState({statusMessage: 'Problem submitting vote. Please try again. '})
         disconnectFromProxies(this.props.spdzProxyServerList.map( spdzProxy => spdzProxy.url), 
-                               this.props.spdzApiRoot, this.props.clientPublicKey)
+                              this.props.spdzApiRoot, this.props.clientPublicKey)
       })
   }
 
