@@ -10,7 +10,7 @@ var logger = new (winston.Logger)({
       handleExceptions: true,
       humanReadableUnhandledException: true,
       timestamp: function () {
-        return moment().format('YYYY-MM-DDThh:mm:ss.SSSZ')
+        return moment().format('YYYY-MM-DDTHH:mm:ss.SSSZ')
       },
       formatter: function (options) {
         // Return string will be passed to logger.

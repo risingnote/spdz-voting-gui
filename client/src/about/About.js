@@ -6,7 +6,7 @@ import React from 'react'
 const About = (props) =>  {
     return (
       <div>
-        <h4><a href="http://www.multipartycomputation.com/tpmpc-2017">TMPC Workshop 2017</a></h4>
+        <h4><a href="http://www.multipartycomputation.com/tpmpc-2017">TPMPC Workshop 2017</a></h4>
         <p> About </p>
       </div>
     )

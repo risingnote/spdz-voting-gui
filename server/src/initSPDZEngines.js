@@ -1,7 +1,7 @@
 /**
  * Connect to SPDZ engines and send voter ids and talk ids fixed values.
  * Currently SPDZ MPC program will send a fixed number of shares,
- *  assuming voter ids limited to 200 and talk ids limited to 50.
+ *  assuming voter ids limited to 100 and talk ids limited to 40.
  *  Pad out both lists with zeros.   
  */
 const spdzGuiLib = require('spdz-gui-lib')
@@ -10,10 +10,10 @@ const logger = require('./logging')
 
 // Get fixed values to send at startup
 let voterIds = configForEnv('voterIds')
-if (voterIds.length > 150) {
-  throw new Error(`Up to 150 voter ids supported, got ${voterIds.length}.`)
-} else if (voterIds.length < 150) {
-  voterIds = voterIds.concat((new Array(150 - voterIds.length)).fill(0))
+if (voterIds.length > 100) {
+  throw new Error(`Up to 100 voter ids supported, got ${voterIds.length}.`)
+} else if (voterIds.length < 100) {
+  voterIds = voterIds.concat((new Array(100 - voterIds.length)).fill(0))
 }
 
 const workshopSchedule = require('../config/workshopSchedule')
@@ -21,10 +21,10 @@ let talkIds = workshopSchedule.filter( (talk) => {
   return (talk.infoOnly === undefined || talk.infoOnly === 'false')
  }).map( (talk) => talk.id )
 
-if (talkIds.length > 50) {
-  throw new Error(`Up to 50 talk ids supported, got ${talkIds.length}.`)
-} else if (talkIds.length < 50) {
-  talkIds = talkIds.concat((new Array(50 - talkIds.length)).fill(0))
+if (talkIds.length > 40) {
+  throw new Error(`Up to 40 talk ids supported, got ${talkIds.length}.`)
+} else if (talkIds.length < 40) {
+  talkIds = talkIds.concat((new Array(40 - talkIds.length)).fill(0))
 }
 
 

@@ -54,7 +54,7 @@ class App extends Component {
           <a title="Bristol Crypt Group SPDZ software" href="https://www.cs.bris.ac.uk/Research/CryptographySecurity/SPDZ/">
             <img src={spdzlogo} className='App-spdzlogo' alt="SPDZ logo" />
           </a>
-          <h4>TMPC Workshop 2017</h4>                    
+          <h4>TPMPC Workshop 2017</h4>                    
           <Navbar inverse collapseOnSelect style={{marginBottom: '0', border: '0'}}>
             <Navbar.Header>
               <Navbar.Brand>
