@@ -117,7 +117,7 @@
       "dateTime": "2017-04-04 17:30 +0100",
       "id": 212, 
       "speaker": "Avishay Yanai", 
-      "title": "Low-Round MPC with Efficient Data Structures"
+      "title": "Garbling Three-Valued Logic Circuits"
     },
     {
       "dateTime": "2017-04-04 18:00 +0100",
@@ -175,7 +175,7 @@
       "dateTime": "2017-04-05 14:00 +0100",
       "id": 307, 
       "speaker": "Manoj M Prabhakaran", 
-      "title": "T.B.D."
+      "title": "Secure Protocol Transformations"
     },
     {
       "dateTime": "2017-04-05 15:00 +0100",
@@ -224,8 +224,130 @@
     {
       "dateTime": "2017-04-05 19:30 +0100",
       "id": 315, 
-      "speaker": "Conference Dinner   @Clifton Lido", 
+      "speaker": "Conference Dinner", 
+      "title": "@Clifton Lido",
+      "infoOnly": "true"      
+    },
+
+    {
+      "dateTime": "2017-04-06 09:00 +0100",
+      "id": 401, 
+      "speaker": "Marianna Raykova", 
+      "title": "Secure Computation with RAMs: Revisiting Square Root ORAM and Low Leakage Secure Boolean Queries"
+    },      
+    {
+      "dateTime": "2017-04-06 10:00 +0100",
+      "id": 402, 
+      "speaker": "Mike Rosulek", 
+      "title": "New Results for Garbling Arithmetic and High Fan-In Computations"
+    },      
+    {
+      "dateTime": "2017-04-06 11:00 +0100",
+      "id": 403, 
+      "speaker": "Coffee", 
       "title": "",
+      "infoOnly": "true"      
+    },
+    {
+      "dateTime": "2017-04-06 11:30 +0100",
+      "id": 404, 
+      "speaker": "Arpita Patra", 
+      "title": "Fast Actively Secure OT Extension for Short Secrets"
+    },      
+    {
+      "dateTime": "2017-04-06 12:00 +0100",
+      "id": 405, 
+      "speaker": " Xiao Wang", 
+      "title": "Authenticated Garbling and Efficient Maliciously Secure 2PC and MPC"
+    },      
+    {
+      "dateTime": "2017-04-06 12:30 +0100",
+      "id": 406, 
+      "speaker": "Lunch", 
+      "title": "",
+      "infoOnly": "true"      
+    }, 
+    {
+      "dateTime": "2017-04-06 14:00 +0100",
+      "id": 407, 
+      "speaker": " Peter Scholl", 
+      "title": "Tutorial on using SPDZ (Bring your laptops!)"
+    },      
+    {
+      "dateTime": "2017-04-06 15:00 +0100",
+      "id": 408, 
+      "speaker": "Roberto Trifiletti", 
+      "title": "Tutorial on using SplitCommit and DUPLO"
+    },
+    {
+      "dateTime": "2017-04-06 15:30 +0100",
+      "id": 409, 
+      "speaker": "Michael Nielsen", 
+      "title": "Demo of the Tiny Table protocol"
+    },
+    {
+      "dateTime": "2017-04-06 16:00 +0100",
+      "id": 410, 
+      "speaker": "Coffee", 
+      "title": "",
+      "infoOnly": "true"      
+    },
+    {
+      "dateTime": "2017-04-06 16:30 +0100",
+      "id": 411, 
+      "speaker": "Peter Rindal", 
+      "title": "Improved Private Set Intersection against Malicious Adversaries"
+    },
+    {
+      "dateTime": "2017-04-06 17:00 +0100",
+      "id": 412, 
+      "speaker": "Peihan Miao", 
+      "title": "Laconic Receiver Oblivious Transfer And Its Applications"
+    },
+    {
+      "dateTime": "2017-04-06 17:30 +0100",
+      "id": 413, 
+      "speaker": "Alisa Pankova", 
+      "title": "Active Security For Sharemind"
+    },
+    {
+      "dateTime": "2017-04-06 18:00 +0100",
+      "id": 414, 
+      "speaker": "Days End", 
+      "title": "",
+      "infoOnly": "true"      
+    },
+
+    {
+      "dateTime": "2017-04-07 09:00 +0100",
+      "id": 501, 
+      "speaker": "Alex J. Malozemoff", 
+      "title": "Attribute-based Key Exchange"
+    },
+    {
+      "dateTime": "2017-04-07 10:00 +0100",
+      "id": 502, 
+      "speaker": "Patrick Ah-Fat", 
+      "title": "Secure Multi-Party Computation: Information Flow of Outputs and Game Theory"
+    },
+    {
+      "dateTime": "2017-04-07 10:30 +0100",
+      "id": 503, 
+      "speaker": "Anna Pappa", 
+      "title": "Multiparty Delegated Quantum Computation"
+    },
+    {
+      "dateTime": "2017-04-07 11:00 +0100",
+      "id": 504, 
+      "speaker": "Coffee", 
+      "title": "",
+      "infoOnly": "true"      
+    },
+    {
+      "dateTime": "2017-04-07 11:30 +0100",
+      "id": 505, 
+      "speaker": "Conference End", 
+      "title": "Have you voted yet?",
       "infoOnly": "true"      
     }
 

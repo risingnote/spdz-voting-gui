@@ -15,7 +15,7 @@ class VoteForm extends Component {
   }
 
   voterIdIsValid() {
-    return this.state.voterId.length === 6 && /^\d+$/.test(this.state.voterId)
+    return this.state.voterId.length === 8 && /^\d+$/.test(this.state.voterId)
   }
 
   handleSubmit(event) {
@@ -53,7 +53,7 @@ class VoteForm extends Component {
               <FormControl
                 type="text"
                 value={this.state.voterId}
-                placeholder="Enter your 6 digit voter ID."
+                placeholder="Enter your 8 digit voter ID."
                 onChange={(e) => this.setState( {voterId: e.target.value } )}
               />
               {showVoterIdFeedback}
