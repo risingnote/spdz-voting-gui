@@ -1,0 +1,11 @@
+.About {
+  text-align: left;
+}
+
+div.About h4 {
+  color: #e85a32;
+}
+
+div.About li {
+  padding-bottom: 0.5rem;
+}
