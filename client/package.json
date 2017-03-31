@@ -1,6 +1,6 @@
 {
   "name": "spdz-voting-gui",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A GUI to demonstrate using SPDZ to manage voting on workshop talks.",
   "private": true,
   "author": {
