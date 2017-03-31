@@ -66,7 +66,7 @@ class About extends Component {
             <p>The main features of this implementation are:</p>
             <ul>
               <li>3 SPDZ parties running the SPDZ software and the <a href="https://gist.github.com/risingnote/f5039cfa3140d4551ae53abf5b71ef6b">voting mpc program</a>.</li>
-              <li>Each SPDZ party is hosted on a separate server which runs the SPDZ proxy to translate between client http requests and the SPDZ internal socket protocol. The proxy URLs are displayed at the bottom of the vote page.</li>
+              <li>Each SPDZ party is hosted on a separate server which runs a SPDZ proxy to buffer between the client http requests and the SPDZ internal socket protocol. The proxy URLs are displayed at the bottom of the vote page.</li>
               <li>An application server which provides:</li>
               <ul>
                 <li>an entry point for the application, serving the client GUI,</li>
@@ -80,13 +80,13 @@ class About extends Component {
 
             <h4>Security Design</h4>
             <p>The client can only vote with a private voter id, provided in advance.</p>
-            <p>The client voting information is combined with shares from the SPDZ parties on the clients device.</p> 
+            <p>The client voting information is one-time pad encrypted on the client's device, using shares from the SPDZ parties.</p> 
             <p>Exchange of information between the client and SPDZ parties is protected with ECDH.</p>
             <p>The public keys of the SPDZ servers are provided by the (trusted) application server. Clients generate an ephemeral public key pair for a vote. The client public key is sent to the SPDZ party with no authorisation, this is provided by the private voter id.</p>
             <p>Communications between the client and application server / SPDZ proxies are only allowed over HTTPS.</p> 
             <p>The application server distributes the voter and talk ids to the SPDZ servers at startup and so, in this implementation, is a trusted party.</p>
-            <p>To simplify the implementation and to reduce load on the SPDZ parties, the revealed results are served from the SPDZ parties to be cached by the application server and are not verified. An improvement here would be to send the result shares directly to the client combined with a beaver triple.</p>
-            
+            <p>To simplify the implementation and to reduce load on the SPDZ parties, the revealed results are served from the SPDZ parties to be cached by the application server and are not verified. An improvement here would be to send the authenticated and encrypted result directly from SPDZ to the client.</p>
+
             <h4>More Information</h4>
             <p>This work is produced by the <a href="https://www.cs.bris.ac.uk/Research/CryptographySecurity/">Bristol Cryptography Group</a> and is funded by the EPSRC.</p>
           </Col>

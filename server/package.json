@@ -1,6 +1,6 @@
 {
   "name": "spdz-voting-server",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Serve static GUI and config rest endpoints for spdz-voting-gui",
   "main": "src/index.js",
   "scripts": {
