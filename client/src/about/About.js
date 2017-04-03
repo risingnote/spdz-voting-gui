@@ -55,6 +55,7 @@ class About extends Component {
               <li>You may update your votes at any time.</li>          
             </ul>
             <p>The aggregated top 3 voted talks are displayed on the results page with a points total, these are updated every 10s.</p>
+            <p>The web application has been tested on latest versions of Chrome, Firefox and Safari. IE 11 is not supported and Edge remains untested.</p>
             <p>If you receive a message <i>"Problem submitting vote. Please try again."</i> the most likely reasons are:</p>
             <ul>
               <li>Inputing the wrong voter id,</li>
