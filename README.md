@@ -1,7 +1,7 @@
 # spdz-voting-gui
 A GUI to demonstrate using SPDZ for a conference 'best talk' voting application. 
 
-![Screenshot of TPMPC voting results on mobile](./docs/results.png) ![Screenshot of voting page on mobile](./docs/voting.png)
+![Screenshot of TPMPC voting results on mobile](./docs/results.PNG) ![Screenshot of voting page on mobile](./docs/voting.PNG)
 
 See the [design document](./docs/design.md) for more background information and design decisions.
 
