@@ -1,6 +1,8 @@
 # spdz-voting-gui
 A GUI to demonstrate using SPDZ for a conference 'best talk' voting application. 
 
+![Screenshot of TPMPC voting results on mobile](./docs/results.png) ![Screenshot of voting page on mobile](./docs/voting.png)
+
 See the [design document](./docs/design.md) for more background information and design decisions.
 
 ## Requirements
@@ -8,3 +10,7 @@ See the [design document](./docs/design.md) for more background information and 
 - This project is bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app). See the following [detailed instructions](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md) for configuration and use.
 - node v7.1.0
 - other library dependencies are listed in the package.json files. Use `npm install --production` to pull these down.
+
+## Deployment
+
+Needs to be completed ....
