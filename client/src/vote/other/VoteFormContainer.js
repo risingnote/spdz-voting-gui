@@ -17,8 +17,11 @@ class VoteFormContainer extends Component {
     this.readForResult = this.readForResult.bind(this)
   }
 
-  // This seems to cause management server socket to also close and leave spdz in bad state 
-  //  will not accept new connections.
+  /**
+   * In most cases the proxy connections are already closed, this is only for the case where the browser is closed
+   * or a tab switch made during processing. It is not ideal and leads to many 404 messages.
+   * A more robust way to manage this is for the SPDZ engine to close the socket with a new instruction. 
+   */
   // componentWillUnmount() {
   //   disconnectFromProxies(this.props.spdzProxyServerList.map( spdzProxy => spdzProxy.url), 
   //                         this.props.spdzApiRoot, this.props.clientPublicKey)
