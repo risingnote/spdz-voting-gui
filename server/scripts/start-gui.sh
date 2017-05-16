@@ -1,4 +1,4 @@
-#!/bin/bas
+#!/bin/bash
 
 HERE=$(cd `dirname $0`; pwd)
 CLONEROOT=$HERE/..

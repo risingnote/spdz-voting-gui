@@ -8,20 +8,16 @@
  * Communicate with SPDZ parties to:
  *  - setup fixed data (talk ids, voter ids)
  *  - poll for voting results.
+ * Expect to be run behind an nginx reverse proxy in prod to provide SSL.
  */
 
 const express = require('express')
 const http = require('http')
-const https = require('https')
-const fs = require('fs')
-const compression = require('compression')
 const spdzGuiLib = require('spdz-gui-lib')
 // Polyfill for fetch, required when interacting with SPDZ Api functions in spdz-gui-lib.
 // Pulls in node-fetch to global scope
 require('isomorphic-fetch')
 
-// Deploytime config
-const certs = require('../certs/config.json')
 // Special version for this server, problem in deployment not able to get SSL connection 
 // via external network.
 const proxyConfigInternal = require('../config/spdzProxyInternal.json')
@@ -57,20 +53,8 @@ const spdzProxyList = proxyConfigInternal.spdzProxyList.map( (spdzProxy) => {
   return { url: spdzProxy.url, encryptionKey: spdzGuiLib.createEncryptionKey(spdzProxy.publicKey) }
 })
 
-let webServer
-let guiPortNum
-
-if ( certs.https && certs.https === true ) {
-  const httpsOptions = {
-    key: fs.readFileSync(certs.keyFile),
-    cert: fs.readFileSync(certs.certFile)
-  }
-  webServer = https.createServer(httpsOptions, app)
-  guiPortNum = '8443'
-  } else {
-  webServer = http.createServer(app)
-  guiPortNum = (environ === 'development') ? '3001' : '8080'
-}
+const webServer = http.createServer(app)
+const guiPortNum = (environ === 'development') ? '3001' : '8080'
 
 // Setup connection to SPDZ engines and initialise
 initSPDZEngines(spdzProxyList, proxyConfigInternal.spdzApiRoot, dhPublicKey)

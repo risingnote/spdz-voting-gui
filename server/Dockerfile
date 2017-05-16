@@ -4,9 +4,9 @@ FROM node:7
 # Build container with:
 #   docker build -t spdz/workshop-voting-gui .
 # Run container with:
-#   docker run -d --rm --name workshop_voting_gui -p 443:8443 \ 
-#        -v /home/me/certs:/usr/app/certs -v /home/me/config:/usr/app/config \
-#        -v /home/me/logs:/usr/app/logs spdz/workshop_voting_gui:0.1.0
+#   docker run -d --rm --name workshop_voting_gui -p 8080:8080 \ 
+#        -v /home/me/config:/usr/app/config \
+#        -v /home/me/logs:/usr/app/logs spdz/workshop-voting-gui:m.n.p
 
 LABEL name="SPDZ workshop voting demonstrator GUI." \
       description="Provide the GUI and REST servcies for the workshop voting demo." \
@@ -27,12 +27,8 @@ WORKDIR /usr/app
 # Not using npm install because complexity of accessing private github repo from docker.
 COPY . /usr/app
 
-# Which will be served depends on https true or false in /usr/app/certs/config.json
 EXPOSE 8080
-EXPOSE 8443
 
-# Mount https creds
-VOLUME /usr/app/certs
 # Mount workshop_voting specific config
 VOLUME /usr/app/config
 # Logs are kept

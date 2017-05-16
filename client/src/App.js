@@ -18,7 +18,14 @@ import About from './about/About'
 import { getTalks } from './voters_lib/VotingApi'
 import { talkScheduleConverter } from './vote/schedule/TalkSchedule'
 
-const VoteWithSetup = setupWrapper(VotingContainer)
+/*
+ * envifying magic from create react app to give package.json homepage deploy path.
+ * Expect empty value in dev or /voters in production.
+ */
+const PUBLIC_URL = process.env.PUBLIC_URL ? process.env.PUBLIC_URL : ''
+const PUBLIC_URL_WITH_DEFAULT = process.env.PUBLIC_URL ? process.env.PUBLIC_URL : '/'
+
+const VoteWithSetup = setupWrapper(VotingContainer, '/voters/spdzProxyConfig')
 
 class App extends Component {
   constructor(props) {
@@ -64,13 +71,13 @@ class App extends Component {
             </Navbar.Header>
             <Navbar.Collapse>
               <Nav pullRight>
-                <IndexLinkContainer to="/">
+                <IndexLinkContainer to={PUBLIC_URL_WITH_DEFAULT}>
                   <NavItem>Results</NavItem>
                 </IndexLinkContainer>
-                <IndexLinkContainer to="/vote">
+                <IndexLinkContainer to={PUBLIC_URL+'/vote'}>
                   <NavItem>Vote</NavItem>
                 </IndexLinkContainer>
-                <IndexLinkContainer to="/about">
+                <IndexLinkContainer to={PUBLIC_URL+'/about'}>
                   <NavItem >About</NavItem>
                 </IndexLinkContainer>
               </Nav>
@@ -89,7 +96,7 @@ class App extends Component {
 const AppRouter = (props) => {
   return (
     <Router history={browserHistory}>
-      <Route path="/" component={App}>
+      <Route path={PUBLIC_URL_WITH_DEFAULT} component={App}>
         <IndexRoute component={ResultsContainer} />
         <Route path="about" component={About} />
         <Route path="vote" component={VoteWithSetup} />

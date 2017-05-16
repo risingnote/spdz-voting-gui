@@ -10,23 +10,27 @@ import { Link } from 'react-router'
 import { resultsEnriched } from '../vote/schedule/TalkSchedule'
 import Results from './Results'
 
+// See App.js for explanation
+const PUBLIC_URL_WITH_DEFAULT = process.env.PUBLIC_URL ? process.env.PUBLIC_URL : '/'
+
 class ResultsContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      socket: undefined,
       results: []
     }
-    this.socket = undefined
   }
 
   /**
    * Setup socket.io connection to GUI server listening for results message.
    */
   componentDidMount() {
-    this.socket = Io('/voteresults')
-
+    const socket = Io('/voteresults', {path: '/voters/socket.io'})
+    this.setState({socket: socket})
+    
     // Expect array of {talkId:String, count:Number} when sent results message.
-    this.socket.on('results', (msg) => {
+    socket.on('results', (msg) => {
       // Ensure in high -> low order
       msg.sort((a,b) => b.count - a.count)
       this.setState({results: msg})
@@ -34,7 +38,7 @@ class ResultsContainer extends Component {
   }
 
   componentWillUnmount() {
-    this.socket.disconnect()
+    this.state.socket.disconnect()
   }
 
   render() {
@@ -49,7 +53,7 @@ class ResultsContainer extends Component {
         </Row>
         <Row>
           <Col xsOffset={0} xs={12} mdOffset={2} md={8} style={{color: '#777', paddingTop: '20px'}}>
-             <p>Changed your mind ? You can <Link to="/vote">update your vote.</Link></p> 
+             <p>Changed your mind ? You can <Link to={PUBLIC_URL_WITH_DEFAULT+'/vote'}>update your vote.</Link></p> 
           </Col>
         </Row>
       </div>

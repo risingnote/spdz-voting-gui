@@ -17,7 +17,7 @@ let ns = undefined
  * @param {HttpServer} httpServer 
  */
 const resultsServer = (spdzProxyList, spdzApiRoot, dhPublicKey, httpServer) => {
-    const io = new Io(httpServer)
+    const io = new Io(httpServer, {path: '/voters/socket.io'})
     ns = io.of('/voteresults')
     logger.info('Listening for results web socket connections at /voteresults.')
 

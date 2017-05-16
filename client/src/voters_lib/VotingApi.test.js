@@ -12,7 +12,7 @@ describe('Get list of talks from GUI Rest endpoint using mock responses from fet
     window.fetch.mockClear()
   })
 
-  it('Reads the schedule successfully from /talks', (done) => {
+  it('Reads the schedule successfully from /voters/talks', (done) => {
     window.fetch = jest.fn().mockImplementation(() => {
       const headers = new Headers({'Content-type':'application/json'})
       return Promise.resolve(mockResponse(200, '{ "foo": "bar" }', headers))
@@ -28,7 +28,7 @@ describe('Get list of talks from GUI Rest endpoint using mock responses from fet
       })  
   })
   
-  it('Reads the schedule and throws an error from /talks', (done) => {
+  it('Reads the schedule and throws an error from /voters/talks', (done) => {
     window.fetch = jest.fn().mockImplementation(() =>
       Promise.resolve(mockResponse(500))
     )
